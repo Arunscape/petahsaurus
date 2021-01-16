@@ -13,7 +13,7 @@ interface AppProps {}
 const App = ({}: AppProps) => {
   // Create the count state.
   const [count, setCount] = useState(0);
-  const { user } = useGlobalState();
+  // const { user } = useGlobalState();
   // Create the counter (+1 every second).
   useEffect(() => {
     const timer = setTimeout(() => setCount(count + 1), 1000);
