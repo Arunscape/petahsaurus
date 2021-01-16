@@ -8,10 +8,3 @@ axios({
       lastName: 'Flintstone'
     }
   });
-
-export const checkEmail = (email) =>
-  axios({
-    method: 'get',
-    url: '/api/checkemail',
-    data: { email },
-  });
