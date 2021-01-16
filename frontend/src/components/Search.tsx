@@ -1,5 +1,8 @@
 import React from 'react'
+ import {Link} from 'react-router-dom'
+const Search = () => <Link to="/search">
 
-const Search = () => <div>Search</div>
+<span role="img">🔍</span>
+</Link>
 
 export default Search;
