@@ -2,8 +2,9 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components'
 
-const StyledDiv = styled.div`
-color: red;
+const Menu = styled.div`
+background-color: red;
+position: relative;
 `;
 
 import HamburgerMenu from './HamburgerMenu'
@@ -12,13 +13,19 @@ import Search from './Search';
 
 const Header = () => {
 
-    return <div>
-        <HamburgerMenu/>
-        <Link to="/map">
-            Go to Map
-        </Link>
-        <Search/>
-    </div>
+    return <Menu>
+            <div>
+            <HamburgerMenu/>
+            </div>
+                <div>
+                 <Link to="/map">
+                    Go to Map
+                 </Link>
+                 </div>
+                 <div>
+                 <Search/>
+                 </div>
+    </Menu>
 }
 
 
