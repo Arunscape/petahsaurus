@@ -16,9 +16,11 @@ enum State {
 }
 const bindInputToState = (setter) => (event) => setter(event.target.value)
 
-const checkEmail = (email) => {
+const checkEmail = (email: string, setState) => {
     console.log(email);
-    const promis = Api.checkEmail(email);
+    Api.checkEmail(email)
+        .then(() => setState(State.Signin))
+        .catch(() => setState(State.Signup))
 }
 
 
@@ -31,7 +33,7 @@ const SignIn = () => {
                 <Frame>
                     <p>Getting email</p>
                     <input type="email" placeholder="email@example.com" onChange={bindInputToState(setEmail)}/>
-                    <button onClick={() => checkEmail(email)}>Next</button>
+                    <button onClick={() => checkEmail(email, setState)}>Next</button>
                 </Frame>
                 )
             break;

@@ -1,17 +1,10 @@
 import axios from 'axios'
 
-axios({
-    method: 'post',
-    url: '/user/12345',
-    data: {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
-    }
-  });
+const loc = "http://localhost:5000/"
 
 export const checkEmail = (email) =>
   axios({
-    method: 'get',
-    url: '/api/checkemail',
+    method: 'post',
+    url: loc + 'api/checkemail',
     data: { email },
   });
