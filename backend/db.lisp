@@ -45,6 +45,7 @@
 
 (defun get-all-findings ()
   (let ((query (dbi:execute +get-all-findings-sql+)))
-    (loop for row = (dbi:fetch query)
-       while row
-       collect (finding-row-to-json row))))
+    (apply #'vector
+           (loop for row = (dbi:fetch query)
+              while row
+              collect (finding-row-to-json row)))))
