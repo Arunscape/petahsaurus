@@ -24,15 +24,14 @@ const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
 
-
-
     return <StyledHeader>
         <HamburgerButton onClick={() => {
             setMenuOpen(!menuOpen)
             console.log("menuopen")
-        }
-        }/>
-        {menuOpen && <Menu/>}
+        }}
+        setOpen={setMenuOpen}
+        />
+        <Menu open={menuOpen}/>
         <Link to="/map">
             Go to Map
         </Link>

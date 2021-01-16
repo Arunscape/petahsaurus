@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const StyledMenu = styled.nav`
+const StyledMenu = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: ${({ theme }) => theme.primaryLight};
+  background: #EFFFFA;
+  transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
   height: 100vh;
   text-align: left;
   padding: 2rem;
@@ -13,10 +14,10 @@ export const StyledMenu = styled.nav`
   top: 0;
   left: 0;
   transition: transform 0.3s ease-in-out;
-  
-  @media (max-width: ${({ theme }) => theme.mobile}) {
-    width: 100%;
-  }
+
+  @media (max-width: 576px) {
+      width: 100%;
+    }
 
   a {
     font-size: 2rem;
@@ -24,39 +25,38 @@ export const StyledMenu = styled.nav`
     padding: 2rem 0;
     font-weight: bold;
     letter-spacing: 0.5rem;
-    color: ${({ theme }) => theme.primaryDark};
+    color: #0D0C1D;
     text-decoration: none;
     transition: color 0.3s linear;
-    
-    @media (max-width: ${({ theme }) => theme.mobile}) {
+
+    @media (max-width: 576px) {
       font-size: 1.5rem;
       text-align: center;
     }
 
     &:hover {
-      color: ${({ theme }) => theme.primaryHover};
+      color: #343078;
     }
   }
-`;
+`
 
-
-const Menu = (props) => {
-    return (
-      <StyledMenu open={props.open}>
-        <a href="/">
-          <span role="img" aria-label="about us">&#x1f481;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;</span>
-          About us
+const Menu = ({ open }) => {
+  return (
+    <StyledMenu open={open}>
+      <a href="/">
+        <span role="img" aria-label="about us">💁🏻‍♂️</span>
+        About us
+      </a>
+      <a href="/">
+        <span role="img" aria-label="price">💸</span>
+        Pricing
         </a>
-        <a href="/">
-          <span role="img" aria-label="price">&#x1f4b8;</span>
-          Pricing
-          </a>
-        <a href="/">
-          <span role="img" aria-label="contact">&#x1f4e9;</span>
-          Contact
-          </a>
-      </StyledMenu>
-    )
-  }
+      <a href="/">
+        <span role="img" aria-label="contact">📩</span>
+        Contact
+        </a>
+    </StyledMenu>
+  )
+}
 
-export default Menu;
+export default Menu
