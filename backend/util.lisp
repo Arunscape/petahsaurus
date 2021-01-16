@@ -4,7 +4,7 @@
   (:export
    #:>json
    #:<json
-   #:json-200
+   #:json
    #:param
    #:starts-with
    #:make-id))
@@ -14,8 +14,8 @@
 (defun >json (json)
   (json:encode-json-to-string json))
 
-(defun json-200 (json)
-  `(200
+(defun json (status json)
+  `(,status
     (:content-type "application/json")
     (,(>json json))))
 

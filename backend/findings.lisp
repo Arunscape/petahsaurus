@@ -2,10 +2,10 @@
 
 (setf (ningle:route *app* "/api/finding/:id")
       (lambda (params)
-        (json-200 (db:get-finding (param params :id)))))
+        (json 200 (db:get-finding (param params :id)))))
 
 (setf (ningle:route *app* "/api/finding" :method :POST)
       (lambda (params)
-        (json-200 `((id . ,(db:create-finding (param params "content")
+        (json 200 `((id . ,(db:create-finding (param params "content")
                                               (param (param params "coords") "lat")
                                               (param (param params "coords") "long")))))))
