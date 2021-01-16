@@ -5,7 +5,7 @@ const Frame = (props) =>
     <div>
         {props.children}
     </div>
-    
+
 
 enum State {
     GetEmail,

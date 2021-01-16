@@ -7,7 +7,7 @@
    #:get-finding
    #:get-all-findings
    #:get-user-by-email))
-   
+
 
 (in-package :petahsaurus.db)
 
@@ -32,16 +32,25 @@
   (dbi:prepare *connection*
                "SELECT id, email FROM users WHERE email=?"))
 
+;; database public api
+(defun get-finding (id)
+  (let ((row (dbi:fetch (dbi:execute +get-finding-sql+ (list id)))))
+    (when row
+      `((id . ,(getf row :|id|))
+        (content . ,(getf row :|words|))
+        (date . ,(getf row :|findingdate|))
+        (coords . ((lat . ,(getf row :|lat|))
+                   (long . ,(getf row :|long|))))))))
 
 ;; database public api
 (defun create-finding (words lat long)
   (let ((id (util:make-id)))
     (dbi:execute +create-finding-sql+ (list id words lat long))
-    id))
+    (write-to-string id)))
 
 (defun finding-row-to-json (row)
   (when row
-    `((id . ,(getf row :|id|))
+    `((id . ,(write-to-string (getf row :|id|)))
       (content . ,(getf row :|words|))
       (date . ,(getf row :|findingdate|))
       (coords . ((lat . ,(getf row :|lat|))

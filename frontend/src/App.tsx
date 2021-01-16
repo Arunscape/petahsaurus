@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } fr
 import Home from './pages/Home';
 import NotFound from './pages/NotFound'
 import SignIn from './pages/SignIn';
+import * as Api from './api'
 
 // import logo from './logo.svg';
 // import './App.css';
@@ -10,6 +11,13 @@ import SignIn from './pages/SignIn';
 interface AppProps {}
 
 const App = ({}: AppProps) => {
+
+  //Api.createFinding({content: "eat shit", coords: {lat: 5.5, long: 5.5}})
+  //    .then((resp) => Api.getFinding(resp.data.id))
+  //    .then((data) => console.log(data.data));
+
+  //Api.getAllFindings()
+  //    .then((data) => console.log(data.data));
 
   return (
     <Router>
