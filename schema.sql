@@ -5,5 +5,7 @@ create table findings (
   words bytes,
   picture bytes,
   findingdate date,
+  lat decimal,
+  long decimal,
   primary key (id)
 );
