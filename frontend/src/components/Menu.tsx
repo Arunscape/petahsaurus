@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Link } from 'react-router-dom'
 
 const StyledMenu = styled.nav`
   display: flex;
@@ -43,18 +44,18 @@ const StyledMenu = styled.nav`
 const Menu = ({ open }) => {
   return (
     <StyledMenu open={open}>
-      <a href="/">
-        <span role="img" aria-label="about us">💁🏻‍♂️</span>
-        About us
-      </a>
-      <a href="/">
-        <span role="img" aria-label="price">💸</span>
-        Pricing
-        </a>
-      <a href="/">
-        <span role="img" aria-label="contact">📩</span>
-        Contact
-        </a>
+      <Link to="/add">
+        <span role="img">🦖</span>
+        Submit Observation
+      </Link>
+      <Link to="/notifications">
+        <span role="img">🔔</span>
+        Notifications
+        </Link>
+      <Link to="/profile">
+        <span role="img">👤</span>
+        Profile
+      </Link>
     </StyledMenu>
   )
 }

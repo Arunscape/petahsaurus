@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components'
+
+import useClickOutside from '../hooks/useClickOutside'
 
 const StyledHeader = styled.div`
 box-sizing: border-box;
 width: 100%;
-display: flex;
+position: relative;
+display: block;
 justify-content: center;
 align-items: baseline;
 padding: 1em;
@@ -23,8 +26,10 @@ const Header = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
 
+    const node = useRef(); 
+    useClickOutside(node, () => setMenuOpen(false));
 
-    return <StyledHeader>
+    return <StyledHeader ref={node}>
         <HamburgerButton onClick={() => {
             setMenuOpen(!menuOpen)
             console.log("menuopen")

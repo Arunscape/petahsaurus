@@ -26,8 +26,8 @@ module.exports = {
   buildOptions: {
     /* ... */
   },
-//   "routes": [
-//     {"match": "routes", "src": ".*", "dest": "/index.html"}
-// ],
+  routes:[
+    { match: 'routes', src: '.*', dest: '/index.html' },
+  ]
 
 };

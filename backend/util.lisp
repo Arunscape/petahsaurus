@@ -21,7 +21,7 @@
     ("\"Not Found.\"")))
 
 (defun json (status json &optional null-404)
-  (if (and (null json) (null null-404))
+  (if (and (null json) null-404)
       (return-404)
       `(,status
         (:content-type "application/json")
