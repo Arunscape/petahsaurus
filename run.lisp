@@ -8,5 +8,6 @@
     (load quicklisp-init)))
 
 (ql:quickload '(clack petahsaurus))
-(load "~/.emacs.d/elpa/slime-20191129.1304/start-swank.lisp")
+(load "~/.emacs.d/elpa/slime-20200414.1444/start-swank.lisp")
+
 (clack:clackup petahsaurus.api:*static-app* :use-thread nil)

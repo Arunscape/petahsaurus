@@ -1,4 +1,6 @@
 drop table if exists findings;
+drop table if exists users;
+drop table if exists userdata;
 
 create table findings (
   id int,
@@ -21,4 +23,4 @@ create table userdata (
   dataname TEXT,
   datavalue TEXT,
   FOREIGN KEY(userid) REFERENCES user(id)
-)
+);
