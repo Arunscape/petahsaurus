@@ -2,7 +2,7 @@ drop table if exists findings;
 
 create table findings (
   id int,
-  words bytes,
+  words TEXT,
   picture bytes,
   findingdate date,
   lat decimal,
