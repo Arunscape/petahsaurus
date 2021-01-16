@@ -6,7 +6,8 @@
    #:<json
    #:json-200
    #:param
-   #:starts-with))
+   #:starts-with
+   #:make-id))
 
 (in-package :petahsaurus.util)
 
@@ -24,3 +25,6 @@
 (defun starts-with (str start)
   (and (>= (length str) (length start))
        (string= start (subseq str 0 (length start)))))
+
+(defun make-id ()
+  (random (1- (expt 2 61))))
