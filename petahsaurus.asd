@@ -16,5 +16,8 @@
                :cl-json)
   :components ((:module "backend"
                         :components
-                        ((:file "api"))))
+                        ((:file "util")
+                         (:file "api")
+                         (:file "db")
+                         (:file "findings"))))
   :description "the petahasaurus server")
