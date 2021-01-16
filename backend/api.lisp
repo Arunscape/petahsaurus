@@ -1,5 +1,5 @@
 (defpackage :petahsaurus.api
-  (:use :cl)
+  (:use :cl :util)
   (:export
    #:*app*
    #:*static-app*))
@@ -7,10 +7,6 @@
 (in-package :petahsaurus.api)
 
 (defvar *app* (make-instance 'ningle:app))
-
-(defun starts-with (str start)
-  (and (>= (length str) (length start))
-       (string= start (subseq str 0 (length start)))))
 
 (defun cors (app)
   (lambda (env)
