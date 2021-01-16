@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import * as Api from '../api'
 
 const Frame = (props) =>
     <div>
         {props.children}
     </div>
+    
 
 enum State {
     GetEmail,
@@ -12,12 +14,62 @@ enum State {
     Validating,
     Complete,
 }
+const bindInputToState = (setter) => (event) => setter(event.target.value)
 
-const SignIn = () => 
+const checkEmail = (email) => {
+    console.log(email);
+    const promis = Api.checkEmail(email);
+}
+
+
+const SignIn = () => {
     const [state, setState] = useState(State.GetEmail);
-    <Frame>
-        <p>This is the sign in page =D</p>
-    </Frame>
+    const [email, setEmail] = useState("");
+    switch (state) {
+        case State.GetEmail:
+            return (
+                <Frame>
+                    <p>Getting email</p>
+                    <input type="email" placeholder="email@example.com" onChange={bindInputToState(setEmail)}/>
+                    <button onClick={() => checkEmail(email)}>Next</button>
+                </Frame>
+                )
+            break;
+        case State.Signin:
+            return (
+                <Frame>
+                    <p>Signin</p>
+                </Frame>
+                )
+            break;
+        case State.Signup:
+            return (
+                <Frame>
+                    <p>Signup</p>
+                </Frame>
+                )
+            break;
+        case State.Validating:
+            return (
+                <Frame>
+                    <p>Validating</p>
+                </Frame>
+                )
+            break;
+        case State.Complete:
+            return (
+                <Frame>
+                    <p>Done</p>
+                </Frame>
+                )
+            break;
+        default:
+            return (<Frame>
+                    <p>An error has occured :(</p>
+            </Frame>)
+            break;
+    }
+}
 
 
 
