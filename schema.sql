@@ -1,8 +1,4 @@
-drop table if exists findings;
-drop table if exists users;
-drop table if exists userdata;
-
-create table findings (
+create table IF NOT EXISTS findings (
   id int,
   words TEXT,
   picture bytes,
@@ -12,13 +8,21 @@ create table findings (
   primary key (id)
 );
 
-create table users (
+create table IF NOT EXISTS tags (
+  findingid int,
+  k TEXT,
+  V TEXT,
+  FOREIGN KEY(findingid) REFERENCES findings(id),
+  PRIMARY KEY(findingid, k)
+);
+
+create table IF NOT EXISTS users (
   username TEXT,
   email TEXT,
   id INTEGER PRIMARY KEY AUTOINCREMENT
 );
 
-create table userdata (
+create table IF NOT EXISTS userdata (
   userid INTEGER,
   dataname TEXT,
   datavalue TEXT,
