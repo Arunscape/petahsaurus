@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-ro
 import Home from './pages/Home';
 import NotFound from './pages/NotFound'
 
-import useGlobalState from './useGlobalState';
-
 // import logo from './logo.svg';
 // import './App.css';
 
