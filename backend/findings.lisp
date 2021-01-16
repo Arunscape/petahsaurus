@@ -9,3 +9,8 @@
         (json 200 `((id . ,(db:create-finding (param params "content")
                                               (param (param params "coords") "lat")
                                               (param (param params "coords") "long")))))))
+
+(setf (ningle:route *app* "/api/findings/all")
+      (lambda (params)
+        (declare (ignore params))
+        (json 200 (db:get-all-findings))))

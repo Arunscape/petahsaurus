@@ -5,6 +5,7 @@
    #:*connection*
    #:create-finding
    #:get-finding
+   #:get-all-findings
    ))
 
 (in-package :petahsaurus.db)
@@ -22,6 +23,10 @@
   (dbi:prepare *connection*
                "SELECT id, words, findingdate, lat, long FROM findings WHERE id=?"))
 
+(defvar +get-all-findings-sql+
+  (dbi:prepare *connection*
+               "SELECT id, words, findingdate, lat, long FROM findings"))
+
 
 ;; database public api
 
@@ -30,12 +35,16 @@
     (dbi:execute +create-finding-sql+ (list id words lat long))
     id))
 
+(defun finding-row-to-json (row)
+  (when row
+    `((id . ,(getf row :|id|))
+      (content . ,(getf row :|words|))
+      (date . ,(getf row :|findingdate|))
+      (coords . ((lat . ,(getf row :|lat|))
+                 (long . ,(getf row :|long|)))))))
 
-(defun get-finding (id)
-  (let ((row (dbi:fetch (dbi:execute +get-finding-sql+ (list id)))))
-    (when row
-      `((id . ,(getf row :|id|))
-        (content . ,(getf row :|words|))
-        (date . ,(getf row :|findingdate|))
-        (coords . ((lat . ,(getf row :|lat|))
-                   (long . ,(getf row :|long|))))))))
+(defun get-all-findings ()
+  (let ((query (dbi:execute +get-all-findings-sql+)))
+    (loop for row = (dbi:fetch query)
+       while row
+       collect (finding-row-to-json row))))
