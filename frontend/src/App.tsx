@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound'
+
+// import useGlobalState from './useGlobalState';
+
+// import logo from './logo.svg';
+// import './App.css';
 
 interface AppProps {}
 
-function App({}: AppProps) {
+const App = ({}: AppProps) => {
   // Create the count state.
   const [count, setCount] = useState(0);
   // Create the counter (+1 every second).
@@ -14,27 +20,15 @@ function App({}: AppProps) {
   }, [count, setCount]);
   // Return the App component.
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Redirect to="/home"/>
+        </Route>
+      <Route exact path="/home" component={Home}/>
+      <Route component={NotFound}/>
+      </Switch>
+    </Router>
   );
 }
 
