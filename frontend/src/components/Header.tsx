@@ -5,7 +5,8 @@ import styled from 'styled-components'
 const StyledHeader = styled.div`
 box-sizing: border-box;
 width: 100%;
-display: flex;
+position: relative;
+display: block;
 justify-content: center;
 align-items: baseline;
 padding: 1em;
