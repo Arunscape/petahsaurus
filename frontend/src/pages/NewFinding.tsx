@@ -235,7 +235,8 @@ const NewFindings = () => {
         }
         onChange={(e) =>
           setFinding({
-            ...finding,
+              ...finding,
+              content: e.target.value,
             tags: {
               ...finding.tags,
               identification: e.target.value,
