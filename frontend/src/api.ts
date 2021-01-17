@@ -43,6 +43,21 @@ export const upgrade = () =>
     url: `${apiPath}/api/upgrade`,
   }));
 
+export interface UserInfo {
+  sub: string, // subscriber (user id)
+  email: string,
+  exp: number, // expiry date (unix time stamp)
+  isfull: boolean | Array<boolean>, // true if token is good, empty list if not validated
+
+}
+export const getUserIdInfo = (): UserInfo => {
+  const tok = window.localStorage.getItem('tok')
+  const usr = JSON.parse(atob(tok.split[1]))
+  return usr as UserInfo
+}
+
+
+
 export interface NewFinding {
     content: string,
     image: string,
