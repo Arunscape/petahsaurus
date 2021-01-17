@@ -17,6 +17,8 @@ import useGlobalState from '../hooks/useGlobalState';
 
 import ReactMapGL, { Marker, Pin } from 'react-map-gl';
 
+import pin from '../assets/red_pin.svg'
+
 const { SNOWPACK_PUBLIC_APIKEY } = import.meta.env;
 
 
@@ -142,7 +144,7 @@ const Home = () => {
         });
       });
     }, []);
-    const SIZE = 20;
+    const SIZE = 50;
     const history = useHistory();
     return (
       <StyledMapBox className="mapbox-react">
@@ -161,20 +163,20 @@ const Home = () => {
                 longitude={f.coords.long}
                 latitude={f.coords.lat}
               >
-                <svg
+                <img
           height={SIZE}
-          viewBox="0 0 24 24"
+          src={pin}
           style={{
             cursor: 'pointer',
             fill: '#d00',
             stroke: 'none',
             transform: `translate(${-SIZE / 2}px,${-SIZE}px)`,
-            border: "1px red solid"
+            // border: "1px red solid"
           }}
           onClick={() => {
             history.push(`/finding/${f.id}`)
           }}
-        ></svg>
+        />
               </Marker>
             );
           })}
