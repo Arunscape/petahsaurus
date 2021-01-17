@@ -116,7 +116,7 @@ const NewFindings = () => {
       long: -1,
     },
     tags: {},
-    id: undefined,
+    id: undefined
   });
 
   useEffect(() => {
@@ -171,7 +171,7 @@ const NewFindings = () => {
         onChange={(e) => {
             let reader = new FileReader();
             let image = e.target.files[0];
-            
+
             // ok so basically, reader.readAsDataURL happens first
             // this event listener waits for it to finish converting to base64
             // then it  does stuff inside here
@@ -188,11 +188,11 @@ const NewFindings = () => {
                 },
                 false,
                 );
-                
+
                 reader.readAsDataURL(image);
             }}
             />
-      <label for="file-input">
+      <label htmlFor="file-input">
     <Addimgicon src={addimg}/>
     </label>
     </ImgUpload>
@@ -297,11 +297,11 @@ const NewFindings = () => {
           const user = usr.sub; // Arun, this is how you get user id
           const verified = false; // HOW THE FUCK DO WE KNOW IF A USER IS VERIFIED THIS IS ON YOU BACKEND FOLKS!!!
           const needs_id = !!finding.tags.identification
-          const new_finding = { ...finding, date, tags:{
+            const new_finding: Api.Finding = { ...finding, date, tags:{
             ...finding.tags,
             user,
-            verified,
-            needs_id,
+            verified: verified.toString(),
+                needs_id: needs_id.toString(),
           } };
           setFinding(new_finding);
 
