@@ -76,7 +76,6 @@
                while row
                collect (funcall result-formatter row))))
 
-;; database public api
 (defun create-finding (words picture time lat long)
   (let ((id (util:make-id)))
     (dbi:execute +create-finding-sql+ (list id words picture time lat long))
@@ -84,7 +83,7 @@
 
 (defun update-finding (id words picture time lat long)
     (dbi:execute +create-finding-sql+ (list id words picture time lat long))
-    (write-to-string id))
+    id)
 
 
 (defun get-all-findings ()

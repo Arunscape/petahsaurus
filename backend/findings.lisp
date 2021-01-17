@@ -7,6 +7,15 @@
                       (cons `(tags . ,(db:get-tags (param params :id))) finding))
                 t))))
 
+(setf (ningle:route *app* "/api/finding/:id" :method :PUT)
+      (lambda (params)
+        (json 200 `((id . ,(db:update-finding (param params :id)
+                                              (param params "content")
+                                              (param params "image")
+                                              (param params "date")
+                                              (param (param params "coords") "lat")
+                                              (param (param params "coords") "long")))))))
+
 (setf (ningle:route *app* "/api/finding/:id/tags" :method :POST)
       (lambda (params)
         (if (db:get-finding (param params :id))
