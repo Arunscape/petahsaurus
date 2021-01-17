@@ -16,22 +16,22 @@ const Background = styled.div`
 background-image: url(${background});
 background-repeat: repeat;
 height: 100vh;
+overflow: auto;
 `
 
 const Home = () => {
   const [findings, setFindings] = useState([]);
 
   useEffect(() => {
-    Api.getAllFindings()
-      .then((res) => setFindings(res.data))
+    Api.getAllFindings().then((res) => setFindings(res.data));
   }, []);
 
   return (
     <Background>
       <Header />
-      {findings.map((finding: Api.Finding) => (
-        <FindingCard finding={finding}/>
-      ))}
+        {findings.map((finding: Api.Finding) => (
+          <FindingCard finding={finding} />
+        ))}
     </Background>
   );
 };

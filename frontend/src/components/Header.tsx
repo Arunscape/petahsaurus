@@ -28,7 +28,6 @@ display: block;
 justify-content: center;
 align-items: baseline;
 padding: 1em;
-margin-bottom: 2em;
 background-color: #393E41;
 `;
 

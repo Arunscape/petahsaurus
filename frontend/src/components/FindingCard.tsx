@@ -15,9 +15,18 @@ const Card = styled.div`
   align-items: center;
   padding-top: 50px;
   padding-bottom: 50px;
+  margin-top: 20px;
+  cursor: pointer;
+  text-decoration: none;
 `;
-const StyledImg = styled.img``;
-const Description = styled.p``;
+const StyledImg = styled.img`
+  max-width: 50vw;
+  max-height: 25vw;
+`;
+const Description = styled.p`
+  text-decoration: none;
+  color: grey;
+`;
 
 const FindingCard = (props: { finding: Finding }) => (
   <Link to={`/finding/${props.finding.id}`}>
