@@ -6,7 +6,7 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
-import Header from '../components/Header';
+import Header from '../components/HomeHeader';
 import FindingCard from '../components/FindingCard';
 import * as Api from '../api';
 
