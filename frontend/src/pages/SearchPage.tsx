@@ -1,34 +1,17 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import Header from '../components/Header'
 import styled from 'styled-components';
 import profile from '../assets/profilebrown.svg'
-import back from '../assets/backarrow.svg'
+
 import useGlobalState from '../hooks/useGlobalState';
 
-const BackButton = styled.button`
-height: 4rem;
-width: 4rem;
-background-color: transparent;
-border: transparent;
-`;
+
 
 const StyledDiv = styled.div`
 `;
 
 const StyledItem = styled.span``;
 
-const StyledHeader = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  position: relative;
-  display: block;
-  justify-content: center;
-  align-items: baseline;
-  padding: 1em;
-  margin-bottom: 2em;
-  background-color: #E3B23C;
-  color: #fff;
-`;
 
 const StyledCheckBox = styled.input``;
 
@@ -59,17 +42,7 @@ padding: 0.5rem;
 
 const StyledInput = styled.input``;
 
-const SearchHeader = () => {
-  const history = useHistory();
 
-  return (
-    <StyledHeader>
-      <BackButton onClick={() => history.goBack()}>
-      <img src={back} />
-      </BackButton>
-    </StyledHeader>
-  );
-};
 
 const SearchPage = () => {
   const { filterOpts, setFilterOpts } = useGlobalState();
@@ -100,7 +73,7 @@ const SearchPage = () => {
 
   return (
     <StyledDiv>
-      <SearchHeader />
+      <Header />
       <SearchOptions>
         <Whomst>
           <Whomsttag>
