@@ -1,18 +1,14 @@
 import React from 'react'
+import type { Finding } from 'src/api'
 import styled from 'styled-components'
 
 const Card = styled.div``
 const StyledImg = styled.img``
 const Description = styled.p``
 
-interface FindingsProps {
-    image: string,
-    description: string,
-}
-
-const FindingCard = (props: FindingsProps) => <Card>
-    <StyledImg src={props.image} />
-    <Description>{props.description}</Description>
+const FindingCard = (props: {finding: Finding}) => <Card>
+    <StyledImg src={props.finding.image} />
+    <Description>{props.finding.content}</Description>
 </Card>
 
 

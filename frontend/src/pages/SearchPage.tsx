@@ -1,28 +1,17 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import Header from '../components/Header'
 import styled from 'styled-components';
 import profile from '../assets/profilebrown.svg'
+
 import useGlobalState from '../hooks/useGlobalState';
 
-const BackButton = styled.button``;
+
 
 const StyledDiv = styled.div`
 `;
 
 const StyledItem = styled.span``;
 
-const StyledHeader = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  position: relative;
-  display: block;
-  justify-content: center;
-  align-items: baseline;
-  padding: 1em;
-  margin-bottom: 2em;
-  background-color: rgb(192, 45, 26);
-  color: #fff;
-`;
 
 const StyledCheckBox = styled.input``;
 
@@ -36,7 +25,6 @@ const Whomst = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-border: 2px;
 `
 const Whomsttag = styled.div`
 color: #565149;
@@ -54,15 +42,7 @@ padding: 0.5rem;
 
 const StyledInput = styled.input``;
 
-const SearchHeader = () => {
-  const history = useHistory();
 
-  return (
-    <StyledHeader>
-      <BackButton onClick={() => history.goBack()}>Go Back</BackButton>
-    </StyledHeader>
-  );
-};
 
 const SearchPage = () => {
   const { filterOpts, setFilterOpts } = useGlobalState();
@@ -93,7 +73,7 @@ const SearchPage = () => {
 
   return (
     <StyledDiv>
-      <SearchHeader />
+      <Header />
       <SearchOptions>
         <Whomst>
           <Whomsttag>

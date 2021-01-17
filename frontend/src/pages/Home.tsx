@@ -1,43 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
-import Header from '../components/Header';
-import FindingCard from '../components/FindingCard'
+import React, { useEffect, useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
+import Header from '../components/HomeHeader';
+import FindingCard from '../components/FindingCard';
+import * as Api from '../api';
 
 const Home = () => {
+  const [findings, setFindings] = useState([]);
 
-const [findings, setFindings] = useState([]);
+  useEffect(() => {
+    Api.getAllFindings()
+      .then((res) => setFindings(res.data))
+  }, []);
 
-useEffect(() => {
-    const getFindings = async () => {
-
-        const res = [
-            {
-                id: 1,
-                image: "https://via.placeholder.com/150",
-                description: "this is a dinosaur"
-            },
-            {
-                id: 2,
-                image: "https://via.placeholder.com/150",
-                description: "this is another dinosaur"
-            },
-            {
-                id: 3,
-                image: "https://via.placeholder.com/150",
-                description: "this is another another dinosaur"
-            }
-        ]
-        setFindings(res)
-    }
-
-    getFindings()
-
-}, [])
-
-return <div>
-    <Header/>
-    {findings.map(({image, description, id}) => <FindingCard key={id} image={image} description={description}/>)} 
-</div>
-}
+  return (
+    <div>
+      <Header />
+      {findings.map((finding: Api.Finding) => (
+        <FindingCard finding={finding}/>
+      ))}
+    </div>
+  );
+};
 
 export default Home;

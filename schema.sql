@@ -1,5 +1,5 @@
 create table IF NOT EXISTS findings (
-  id int,
+  id string,
   words TEXT,
   picture TEXT,
   findingdate int,
@@ -9,7 +9,7 @@ create table IF NOT EXISTS findings (
 );
 
 create table IF NOT EXISTS tags (
-  findingid int,
+  findingid string,
   k TEXT,
   v TEXT,
   FOREIGN KEY(findingid) REFERENCES findings(id),
@@ -20,11 +20,11 @@ create table IF NOT EXISTS users (
   username TEXT,
   email TEXT,
   validation TEXT,
-  id INTEGER PRIMARY KEY AUTOINCREMENT
+  id TEXT PRIMARY KEY
 );
 
 create table IF NOT EXISTS userdata (
-  userid INTEGER,
+  userid TEXT,
   dataname TEXT,
   datavalue TEXT,
   FOREIGN KEY(userid) REFERENCES users(id)

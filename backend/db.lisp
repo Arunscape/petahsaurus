@@ -13,7 +13,8 @@
    #:has-user-email
    #:validate
    #:is-user-valid
-   #:create-user))
+   #:create-user
+   #:request-validation))
 
 
 (in-package :petahsaurus.db)
@@ -45,9 +46,13 @@
   (dbi:prepare *connection*
                "UPDATE users SET validation=\"COMPLETE\" WHERE validation=?"))
 
+(defparameter +add-validation-request-sql+
+  (dbi:prepare *connection*
+               "UPDATE users SET validation=? WHERE email=?"))
+
 (defparameter +add-user-sql+
   (dbi:prepare *connection*
-               "INSERT INTO users (username, email) VALUES (?, ?)"))
+               "INSERT INTO users (username, email, id) VALUES (?, ?, ?)"))
 
 (defparameter +get-tags-sql+
   (dbi:prepare *connection*
@@ -60,7 +65,7 @@
 ;; database public api
 (defun finding-row-to-json (row)
   (when row
-    `((id . ,(write-to-string (getf row :|id|)))
+    `((id . ,(getf row :|id|))
       (content . ,(getf row :|words|))
       (image . ,(getf row :|picture|))
       (date . ,(getf row :|findingdate|))
@@ -77,9 +82,9 @@
                collect (funcall result-formatter row))))
 
 (defun create-finding (words picture time lat long)
-  (let ((id (util:make-id)))
+  (let ((id (util:random-string 8)))
     (dbi:execute +create-finding-sql+ (list id words picture time lat long))
-    (write-to-string id)))
+    id))
 
 (defun update-finding (id words picture time lat long)
     (dbi:execute +create-finding-sql+ (list id words picture time lat long))
@@ -106,9 +111,9 @@
 (defun get-user-by-email (email)
   (let* ((query (dbi:execute +get-user-by-email-sql+ (list email)))
          (res (query-helper query (lambda (row)
-                                   `((id . ,(getf row :|id|))
-                                     (email . ,(getf row :|email|))
-                                     (validation . ,(getf row :|validation|))))))
+                                   `((:id . ,(getf row :|id|))
+                                     (:email . ,(getf row :|email|))
+                                     (:validation . ,(getf row :|validation|))))))
          (has-email (= 1 (length res))))
     (and has-email (elt res 0))))
 
@@ -116,6 +121,9 @@
   (and (get-user-by-email email) t))
 
 (defun validate (validation)
+  (princ "Validation: ")
+  (princ validation)
+  (terpri)
   (dbi:execute +set-user-validation-sql+ (list validation)))
 
 (defun is-user-valid (email)
@@ -123,4 +131,9 @@
     (and v (cdr v))))
 
 (defun create-user (name email)
-  (dbi:execute +add-user-sql+ (list name email)))
+  (dbi:execute +add-user-sql+ (list name email (util:random-string))))
+
+(defun request-validation (email)
+  (let ((validation (util:random-string)))
+    (dbi:execute +add-validation-request-sql+ (list validation email))
+    validation))

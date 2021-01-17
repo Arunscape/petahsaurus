@@ -33,18 +33,29 @@ const NewFindings = () => {
     const [descr, setDescr] = useState("");
     const [picture, setPicture] = useState(null);
     const inputRef = useRef();
-
-
-    const submitFunction = () => {
+    
+    const submitFunction = async () => {
         //console.log("Submit got clicked");
         //console.log(inputRef)
         //console.log(picture)
         //console.log(descr);
         //console.log(tagKey + " " + tagVal);
+        const reader = new FileReader();
 
-        //Api.createFinding({content: "eat shit", coords: {lat: 5.5, long: 5.5}})
-            //.then((resp) => Api.getFinding(resp.data.id))
-            //.then((data) => console.log(data.data));
+        reader.addEventListener("load", function () {
+          // convert image file to base64 string
+          console.log(reader.result.toString());
+          setPicture(reader.result.toString())
+
+          Api.createFinding({content: "eat shit", coords: {lat: 5.5, long: 5.5}, image: reader.result.toString(), date: 69})
+              //.then((resp) => Api.getFinding(resp.data.id))
+              .then((data) => console.log(data.data));
+        }, false);
+      
+        if (picture) {
+          reader.readAsDataURL(picture);
+          setPicture(reader.result.toString())
+        }
 
         //Api.setTag(id, tagKey, tagVal);
         
@@ -57,12 +68,16 @@ const NewFindings = () => {
     return <div>
         MAKE A DINOSAUR PAGE 
         <p>picture</p>
-        <input ref={inputRef} type="file" accept="image/x-png,image/jpeg" onChange={(e) => setPicture(e.target.files.item(0)) }/>
+        <input ref={inputRef} type="file" accept="image/x-png,image/jpeg" onChange={(e) => {
+            setPicture(e.target.files.item(0)) 
+        // make backend call to upload picture
+        }}/>
         <p>description</p>
         <input type="text" onChange={(e) => setDescr(e.target.value)}/>
         {tagList.map((t, i) => <TagEditor index={i} setter={setTagList} original={tagList}></TagEditor>)}
         <br></br><button onClick={ () => setTagList([...tagList, ["", ""]]) } > more tags </button>
         <br></br><button onClick={ submitFunction } > Submit </button>
+        <img src={picture}/>
     </div>
 }
 
