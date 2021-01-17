@@ -13,7 +13,8 @@
     (princ (getf env :REQUEST-ORIGIN))
     (princ env)
     (terpri)
-    (let ((domain "http://jacobtestapp.example.com:8080"))
+    (let ((domain "*"))
+    ;(let ((domain "http://jacobtestapp.example.com:8080"))
       (if (equal (getf env :REQUEST-METHOD) :OPTIONS)
           `(204
             (:access-control-allow-methods
