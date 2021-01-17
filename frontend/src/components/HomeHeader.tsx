@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components';
 import map from '../assets/mapicon.svg';
 import logo from '../assets/logofull.svg';
-import appicon from '../assets/logofull.svg';
+import licon from '../assets/listview.svg';
 
 import useClickOutside from '../hooks/useClickOutside';
 
@@ -68,7 +68,7 @@ const HomeHeader = () => {
           </Link>
         ) : (
           <Link to="/home">
-            <Map src={appicon} />
+            <Map src={licon} />
           </Link>
         )}
       </Navi2>
