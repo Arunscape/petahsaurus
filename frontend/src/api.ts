@@ -1,39 +1,55 @@
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 
-const apiPath = "http://localhost:5000"
+const apiPath = "http://localhost:5000";
+(window as any).token = "";
 
+const recieveToken = (data) => {
+  const promise = new Promise((resolve, reject) => {
+    data
+      .then((e) => {
+        let tok = e.data.tok;
+        (window as any).token = tok;
+        console.log("Success. Got token", (window as any).token)
+        resolve(e);
+      })
+      .catch((e) => reject(e));
+  });
+  return promise
+}
 // Signup code
 export const checkEmail = (email) =>
   axios({
     method: 'post',
     url: `${apiPath}/api/checkemail`,
     data: { email },
-    withCredentials: true,
   });
 
 export const signup = (email, username) =>
-  axios({
+  recieveToken(axios({
     method: 'post',
     url: `${apiPath}/api/signup`,
     data: { email, username },
-    withCredentials: true,
-  });
+  }));
 
 export const signin = (email) =>
-  axios({
+  recieveToken(axios({
     method: 'post',
     url: `${apiPath}/api/signin`,
     data: { email },
-    withCredentials: true,
-  });
+  }));
+
+const authapi = (data) => {
+  data.data = { ...data.data, tok: (window as any).token }
+  console.log(data)
+  axios(data)
+}
 
 export const upgrade = () =>
-  axios({
-    method: 'get',
+  recieveToken(authapi({
+    method: 'post',
     url: `${apiPath}/api/upgrade`,
-    withCredentials: true,
-  });
+  }));
 
 export interface NewFinding {
     content: string,
