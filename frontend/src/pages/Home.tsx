@@ -16,7 +16,9 @@ import useGlobalState from '../hooks/useGlobalState';
 
 import ReactMapGL from 'react-map-gl';
 
-const {SNOWPACK_PUBLIC_APIKEY} = import.meta.env;
+const { SNOWPACK_PUBLIC_APIKEY } = import.meta.env;
+
+import { fromJS } from 'immutable';
 
 const Background = styled.div`
   background-image: url(${background});
@@ -44,7 +46,7 @@ const Home = () => {
 
   useEffect(() => {
     console.log('filteropts changed', filterOpts);
-    Api.getAllFindings().then((res) => {
+    Api.getAllFindingsWithTags().then((res) => {
       console.log('unfiltered results', res.data);
 
       const {
@@ -57,18 +59,18 @@ const Home = () => {
       } = filterOpts;
       const filteredResults = res.data
         .filter((finding) => {
-          // todo get own user id
           if (!only_mine) {
             return true;
           }
-          const my_user_id = '';
-          return my_user_id === finding.id;
+          const { sub } = Api.getUserIdInfo();
+          return sub === finding.id;
         })
         .filter((finding) => {
           if (!by_user) {
             return true;
           }
-          return by_user === finding.tags.user; // PETER WHY IS THERE NO USER FIELD
+          const { sub } = Api.getUserIdInfo();
+          return by_user === sub;
         })
         .filter((finding) => {
           if (!verified) {
@@ -86,27 +88,22 @@ const Home = () => {
           if (!date.checked) {
             return true;
           }
-          // JESUS CHRIST WHY DOESN'T THE BACKEND RETURN TAGS UNLESS YOU ASK FOR EACH ID SPECIFCALLY I WASTED AN HOUR ON THIS PETER
-          // WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
-          // REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-          //  FILTERING IS BROKEN UNTIL THAT IS FIXED
-          // (╯°Д°)╯︵/(.□ . \)
-          alert(1);
-          console.log(
-            date.start_unix <= finding.tags.date &&
-              finding.tags.date <= date.end_unix,
-          );
+          // ok now it returns tags thanks Peter <3
           return (
-            date.start_unix <= finding.tags.date &&
-            finding.tags.date <= date.end_unix
+            date.unix_start <= finding.date && finding.date <= date.unix_end
           );
         })
         .filter((finding) => {
           if (!by_location) {
             return true;
           }
-          // bruv we have tdo create a geofence :/
-          return true;
+          const { lat, long } = finding.coords;
+
+          return (
+            Math.abs(lat - finding.coords.lat) +
+              Math.abs(long - finding.coords.long) <
+            1
+          );
         });
       console.log('filtered', filteredResults);
       setFindings(filteredResults);
@@ -121,16 +118,69 @@ const Home = () => {
     </>
   );
   const HomeMap = () => {
-    const [viewport, setViewport] = useState({
-      latitude: 37.7577,
-      longitude: -122.4376,
+    type Coord = {
+      latitude: number;
+      longitude: number;
+      zoom: number;
+    };
+    const [viewport, setViewport] = useState<Coord>({
+      latitude: 51.4792,
+      longitude: -112.7901,
       zoom: 8,
+    });
+
+    useEffect(() => {
+      if (!('geolocation' in navigator)) {
+        alert('geolocation not available');
+        return;
+      }
+      navigator.geolocation.getCurrentPosition((pos) => {
+        setViewport({
+          ...viewport,
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        });
+      });
+    }, []);
+
+    const mapStyle = fromJS({
+      version: 8,
+      sources: {
+        points: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [
+              // {
+              //   type: 'Feature',
+              //   geometry: { type: 'Point', coordinates: [-122.45, 37.78] },
+              // },
+              findings.map(f => ({
+                type: 'Feature',
+                geometry: {type: 'Point', coordinates: [f.coords.long, f.coords.lat]}
+              }))
+            ],
+          },
+        },
+      },
+      layers: [
+        {
+          id: 'my-layer',
+          type: 'circle',
+          source: 'points',
+          paint: {
+            'circle-color': '#f00',
+            'circle-radius': 4,
+          },
+        },
+      ],
     });
 
     return (
       <StyledMapBox className="mapbox-react">
         <ReactMapGL
           {...viewport}
+          mapStype={mapStyle}
           width="100%"
           height="100%"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
