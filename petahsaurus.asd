@@ -19,5 +19,7 @@
                         ((:file "util")
                          (:file "api")
                          (:file "db")
-                         (:file "findings"))))
+                         (:file "token")
+                         (:file "findings")
+                         (:file "signin"))))
   :description "the petahasaurus server")

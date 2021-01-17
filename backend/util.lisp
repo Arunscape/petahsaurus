@@ -8,7 +8,8 @@
    #:json
    #:param
    #:starts-with
-   #:make-id))
+   #:make-id
+   #:get-unix-time))
 
 (in-package :petahsaurus.util)
 
@@ -36,3 +37,13 @@
 
 (defun make-id ()
   (random (1- (expt 2 61))))
+
+;; Time stuff
+(defvar *unix-epoch-difference*
+  (encode-universal-time 0 0 0 1 1 1970 0))
+
+(defun universal-to-unix-time (universal-time)
+  (- universal-time *unix-epoch-difference*))
+
+(defun get-unix-time ()
+  (universal-to-unix-time (get-universal-time)))

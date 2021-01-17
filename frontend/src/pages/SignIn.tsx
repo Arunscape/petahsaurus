@@ -5,7 +5,7 @@ const Frame = (props) =>
     <div>
         {props.children}
     </div>
-    
+
 
 enum State {
     GetEmail,
@@ -23,16 +23,23 @@ const checkEmail = (email: string, setState) => {
         .catch(() => setState(State.Signup))
 }
 
+const signup = (email: string, username: string, setState) => {
+    console.log(email);
+    Api.signup(email, username)
+        .then(() => console.log("Signed up"))
+}
+
 
 const SignIn = () => {
     const [state, setState] = useState(State.GetEmail);
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     switch (state) {
         case State.GetEmail:
             return (
                 <Frame>
                     <p>Getting email</p>
-                    <input type="email" placeholder="email@example.com" onChange={bindInputToState(setEmail)}/>
+                    <input key="emailinput" type="email" placeholder="email@example.com" onChange={bindInputToState(setEmail)}/>
                     <button onClick={() => checkEmail(email, setState)}>Next</button>
                 </Frame>
                 )
@@ -48,6 +55,8 @@ const SignIn = () => {
             return (
                 <Frame>
                     <p>Signup</p>
+                    <input key="nameinput" type="text" placeholder="Name" onChange={bindInputToState(setUsername)}/>
+                    <button onClick={() => signup(email, username, setState)}>Next</button>
                 </Frame>
                 )
             break;
