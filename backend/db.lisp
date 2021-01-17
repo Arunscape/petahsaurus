@@ -121,9 +121,6 @@
   (and (get-user-by-email email) t))
 
 (defun validate (validation)
-  (princ "Validation: ")
-  (princ validation)
-  (terpri)
   (dbi:execute +set-user-validation-sql+ (list validation)))
 
 (defun is-user-valid (email)

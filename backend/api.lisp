@@ -10,9 +10,6 @@
 
 (defun cors (app)
   (lambda (env)
-    (princ (getf env :REQUEST-ORIGIN))
-    (princ env)
-    (terpri)
     (let ((domain "*"))
     ;(let ((domain "http://jacobtestapp.example.com:8080"))
       (if (equal (getf env :REQUEST-METHOD) :OPTIONS)
