@@ -16,9 +16,6 @@ import useGlobalState from '../hooks/useGlobalState';
 
 import ReactMapGL from 'react-map-gl';
 
-// import APIKEY from '../map_api_key';
-const APIKEY=""
-
 const Background = styled.div`
   background-image: url(${background});
   background-repeat: repeat;
@@ -135,7 +132,7 @@ const Home = () => {
           width="100%"
           height="100%"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
-          mapboxApiAccessToken={APIKEY}
+          mapboxApiAccessToken={process.env.APIKEY}
         />
       </StyledMapBox>
     );

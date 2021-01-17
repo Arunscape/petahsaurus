@@ -8,6 +8,7 @@ module.exports = {
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
     '@snowpack/plugin-typescript',
+    "@snowpack/plugin-dotenv",
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
@@ -28,6 +29,5 @@ module.exports = {
   },
   routes:[
     { match: 'routes', src: '.*', dest: '/index.html' },
-  ]
-
+  ],
 };
