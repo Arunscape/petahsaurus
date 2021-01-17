@@ -1,4 +1,7 @@
 import React, { useState , useRef} from 'react'
+import Header from '../components/Header'
+import {useHistory} from 'react-router-dom'
+
 import * as Api from '../api';
 
 
@@ -32,6 +35,7 @@ const NewFindings = () => {
     const [descr, setDescr] = useState("");
     const [picture, setPicture] = useState(null);
     const inputRef = useRef();
+    const history = useHistory();
     
     const submitFunction = async () => {
         //console.log("Submit got clicked");
@@ -54,6 +58,7 @@ const NewFindings = () => {
                     Api.setTag(data.data.id, key, value);
                 }  
                 });
+              history.push("/home");
         }, false);
       
         if (picture) {
@@ -63,6 +68,7 @@ const NewFindings = () => {
     }
 
     return <div>
+        <Header/>
         MAKE A DINOSAUR PAGE 
         <p>picture</p>
         <input ref={inputRef} type="file" accept="image/x-png,image/jpeg" onChange={(e) => {
