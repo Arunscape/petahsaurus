@@ -65,7 +65,7 @@
 ;; database public api
 (defun finding-row-to-json (row)
   (when row
-    `((id . ,(write-to-string (getf row :|id|)))
+    `((id . ,(getf row :|id|))
       (content . ,(getf row :|words|))
       (image . ,(getf row :|picture|))
       (date . ,(getf row :|findingdate|))
@@ -82,9 +82,9 @@
                collect (funcall result-formatter row))))
 
 (defun create-finding (words picture time lat long)
-  (let ((id (util:make-id)))
+  (let ((id (util:random-string 8)))
     (dbi:execute +create-finding-sql+ (list id words picture time lat long))
-    (write-to-string id)))
+    id))
 
 (defun update-finding (id words picture time lat long)
     (dbi:execute +create-finding-sql+ (list id words picture time lat long))
