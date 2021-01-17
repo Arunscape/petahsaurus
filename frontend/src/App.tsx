@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import NewFinding from './pages/NewFinding';
 import NotFound from './pages/NotFound'
 import SignIn from './pages/SignIn';
-import SearchPage from  './pages/Search'
+import SearchPage from  './pages/SearchPage'
 import * as Api from './api'
 
 // import logo from './logo.svg';

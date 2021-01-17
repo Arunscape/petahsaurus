@@ -12,14 +12,17 @@ useEffect(() => {
 
         const res = [
             {
+                id: 1,
                 image: "https://via.placeholder.com/150",
                 description: "this is a dinosaur"
             },
             {
+                id: 2,
                 image: "https://via.placeholder.com/150",
                 description: "this is another dinosaur"
             },
             {
+                id: 3,
                 image: "https://via.placeholder.com/150",
                 description: "this is another another dinosaur"
             }
@@ -33,7 +36,7 @@ useEffect(() => {
 
 return <div>
     <Header/>
-    {findings.map(({image, description}) => <FindingCard image={image} description={description}/>)} 
+    {findings.map(({image, description, id}) => <FindingCard key={id} image={image} description={description}/>)} 
 </div>
 }
 

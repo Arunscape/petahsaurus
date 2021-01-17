@@ -9,6 +9,7 @@ const BackButton = styled.button``;
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const StyledItem = styled.span``;
@@ -92,6 +93,7 @@ const SearchPage = () => {
           />
         </StyledItem>
         <StyledItem>
+          Verified
           <StyledCheckBox
             type="checkbox"
             name="verified"
@@ -100,6 +102,7 @@ const SearchPage = () => {
           />
         </StyledItem>
         <StyledItem>
+          Needs ID
           <StyledCheckBox
             type="checkbox"
             name="needs_id"
@@ -108,6 +111,7 @@ const SearchPage = () => {
           />
         </StyledItem>
         <StyledItem>
+          By Date
           <StyledCheckBox
             type="checkbox"
             name="by_date"
@@ -116,6 +120,7 @@ const SearchPage = () => {
           />
         </StyledItem>
         <StyledItem>
+          By Location
           <StyledCheckBox
             type="checkbox"
             name="by_location"
