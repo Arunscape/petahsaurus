@@ -3,6 +3,7 @@ import { useHistory, useLocation, Link } from 'react-router-dom';
 import React from 'react'
 
 import back from '../assets/backarrow.svg'
+import edit from '../assets/backarrow.svg'
 
 const BackButton = styled.button`
 width: 10vw;
@@ -54,15 +55,16 @@ const Header = () => {
     return (
       <StyledHeader>
         <BackButton onClick={() => history.goBack()}>
-        <img src={back} />
+          <img src={back} />
         </BackButton>
 
-        {location.pathname.startsWith("/finding") && <Link to={`/edit/${id}`}>
-        <EditButton>
-          todo change this to edit idon
-        <img src={back} />
-          </EditButton>
-        </Link>}
+        {location.pathname.startsWith('/finding') && (
+          <Link to={`/edit/${id}`}>
+            <EditButton>
+              <img src={edit} />
+            </EditButton>
+          </Link>
+        )}
       </StyledHeader>
     );
   };
