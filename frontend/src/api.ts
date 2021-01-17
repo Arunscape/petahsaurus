@@ -9,6 +9,7 @@ export const checkEmail = (email) =>
     method: 'post',
     url: `${apiPath}/api/checkemail`,
     data: { email },
+    withCredentials: true,
   });
 
 export const signup = (email, username) =>
@@ -16,6 +17,7 @@ export const signup = (email, username) =>
     method: 'post',
     url: `${apiPath}/api/signup`,
     data: { email, username },
+    withCredentials: true,
   });
 
 export const signin = (email) =>
@@ -23,12 +25,14 @@ export const signin = (email) =>
     method: 'post',
     url: `${apiPath}/api/signin`,
     data: { email },
+    withCredentials: true,
   });
 
 export const upgrade = () =>
   axios({
     method: 'get',
     url: `${apiPath}/api/upgrade`,
+    withCredentials: true,
   });
 
 export interface NewFinding {

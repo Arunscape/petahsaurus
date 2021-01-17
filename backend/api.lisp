@@ -10,22 +10,27 @@
 
 (defun cors (app)
   (lambda (env)
-    (if (equal (getf env :REQUEST-METHOD) :OPTIONS)
-        '(204
-          (:access-control-allow-methods
-           "GET, POST, PUT, DELETE, OPTIONS, HEAD"
-           :access-control-allow-origin "*"
-           :access-control-allow-headers "Authorization, *")
-          nil)
-        (let ((r (funcall app env)))
-          (list (car r)
-                (append '(:access-control-allow-methods
-                          "GET, POST, PUT, DELETE, OPTIONS, HEAD"
-                          :access-control-allow-origin "*"
-                          :access-control-allow-headers
-                          "Authorization, *")
-                        (cadr r))
-                (caddr r))))))
+    (princ (getf env :REQUEST-ORIGIN))
+    (princ env)
+    (terpri)
+    (let ((domain "http://jacobtestapp.example.com:8080"))
+      (if (equal (getf env :REQUEST-METHOD) :OPTIONS)
+          `(204
+            (:access-control-allow-methods
+             "GET, POST, PUT, DELETE, OPTIONS, HEAD"
+             :access-control-allow-origin ,domain
+             :access-control-allow-headers "Authorization, content-type"
+             :access-control-allow-credentials "true")
+            nil)
+          (let ((r (funcall app env)))
+            (list (car r)
+                  (append `(:access-control-allow-methods
+                            "GET, POST, PUT, DELETE, OPTIONS, HEAD"
+                            :access-control-allow-origin ,domain
+                            :access-control-allow-headers "Authorization, content-type"
+                            :access-control-allow-credentials "true")
+                          (cadr r))
+                  (caddr r)))))))
 
 (defvar *static-app*
   (lack:builder

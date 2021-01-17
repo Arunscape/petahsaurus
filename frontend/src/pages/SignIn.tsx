@@ -41,7 +41,7 @@ const pollForUpgrade = (setState) => {
     console.log('Polling');
     Api.upgrade()
       .then(() => setState(State.Complete))
-      .catch(() => setTimeout(() => pollForUpgrade(setState), 1000));
+      .catch(() => setTimeout(() => pollForUpgrade(setState), 5000));
 };
 
 const SignIn = () => {
