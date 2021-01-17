@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components';
 import map from '../assets/mapicon.svg';
 import logo from '../assets/logofull.svg';
-import appicon from '../assets/logoful.svg';
+import appicon from '../assets/logofull.svg';
 
 import useClickOutside from '../hooks/useClickOutside';
 
