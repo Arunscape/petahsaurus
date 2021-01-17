@@ -72,6 +72,7 @@ font-size: 2vw;
 box-sizing: border-box;
 width: 50vw;
 max-width: 40rem;
+text-align: center;
 `;
 
 const Spacer = styled.div`
@@ -292,7 +293,8 @@ const NewFindings = () => {
       <SubmitButton
         onClick={() => {
           const date = Math.floor(Date.now() / 1000);
-          const user = "testy mctestface"// JACOB AND PETER YOU NEED TO EXPLAIN HOW TO GET THE USER ID; JACOB THIS ONE'S ON YOU I THINK I KNOW I'VE BEEN PICKING ON PETER A LOT HERE
+          const usr = Api.getUserIdInfo();
+          const user = usr.sub; // Arun, this is how you get user id
           const verified = false; // HOW THE FUCK DO WE KNOW IF A USER IS VERIFIED THIS IS ON YOU BACKEND FOLKS!!!
           const needs_id = !!finding.tags.identification
           const new_finding = { ...finding, date, tags:{
