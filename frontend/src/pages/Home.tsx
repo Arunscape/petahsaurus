@@ -11,7 +11,8 @@ import Header from '../components/HomeHeader';
 import FindingCard from '../components/FindingCard';
 import * as Api from '../api';
 import styled from 'styled-components';
-import background from '../assets/background.svg';
+import background from '../assets/background.svg'
+import useGlobalState from '../hooks/useGlobalState';
 
 const Background = styled.div`
   background-image: url(${background});
@@ -36,6 +37,8 @@ const Home = () => {
     </>
   );
   const HomeMap = () => <></>
+  const {filterOpts} = useGlobalState(); 
+  
 
   return (
     <Background>
