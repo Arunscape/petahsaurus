@@ -17,9 +17,9 @@
   :components ((:module "backend"
                         :components
                         ((:file "util")
-                         (:file "api")
                          (:file "db")
                          (:file "token")
+                         (:file "api")
                          (:file "findings")
                          (:file "signin"))))
   :description "the petahasaurus server")

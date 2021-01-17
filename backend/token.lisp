@@ -1,12 +1,11 @@
 (defpackage :petahsaurus.token
   (:nicknames :tok)
-  (:use :cl :util)
+  (:use :cl)
   (:export
-   #:*connection*
-   #:create-finding
-   #:get-finding
-   #:get-all-findings
-   #:get-user-by-email))
+   #:get-from-token
+   #:is-partially-valid
+   #:is-valid
+   #:create-token))
 
 (defvar *key* (ironclad:ascii-string-to-byte-array "secret"))
 
