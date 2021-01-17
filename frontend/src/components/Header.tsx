@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components'
+import map from '../assets/mapicon.svg'
 
 import useClickOutside from '../hooks/useClickOutside'
 
@@ -24,6 +25,10 @@ background-color: blue;
 `
 const Navi3 = styled.div`
 background-color: red;
+`
+const Map = styled.img`
+height: 4rem;
+width: 4rem;
 `
 
 
@@ -51,7 +56,7 @@ const Header = () => {
         </Navi1>
         <Navi2>
         <Link to="/map">
-            Go to Map
+            <Map src={map} />
         </Link>
         </Navi2>
         <Navi3>
