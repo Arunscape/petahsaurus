@@ -9,6 +9,7 @@
    #:get-all-findings
    #:get-all-findings-with-tags
    #:get-user-by-email
+   #:get-user-by-id
    #:get-tags
    #:set-tag
    #:has-user-email
@@ -40,6 +41,9 @@
 (defparameter +get-user-by-email-sql+
   (dbi:prepare *connection* "SELECT id, email, validation FROM users WHERE email=?"))
 
+(defparameter +get-user-by-id-sql+
+  (dbi:prepare *connection* "SELECT * FROM users WHERE id=?"))
+
 (defparameter +set-user-validation-sql+
   (dbi:prepare *connection*
                "UPDATE users SET validation=\"COMPLETE\" WHERE validation=?"))
@@ -67,7 +71,7 @@
       (content . ,(getf row :|words|))
       (image . ,(getf row :|picture|))
       (date . ,(getf row :|findingdate|))
-      (userid . ,(getf row :|userid|))
+      (user . ,(get-user-by-id (getf row :|userid|)))
       (coords . ((lat . ,(getf row :|lat|))
                  (long . ,(getf row :|long|)))))))
 
@@ -95,7 +99,7 @@
       (content . ,(getf row :|words|))
       (image . ,(getf row :|picture|))
       (date . ,(getf row :|findingdate|))
-      (userid . ,(getf row :|userid|))
+      (user . ,(get-user-by-id (getf row :|userid|)))
       (coords . ((lat . ,(getf row :|lat|))
                  (long . ,(getf row :|long|))))
       (tags . ,(get-tags (getf row :|id|))))))
@@ -133,6 +137,13 @@
                                      (:validation . ,(getf row :|validation|))))))
          (has-email (= 1 (length res))))
     (and has-email (elt res 0))))
+
+(defun get-user-by-id (id)
+  (let* ((row (dbi:fetch (dbi:execute +get-user-by-id-sql+ (list id)))))
+    (when row
+      `((:id . ,(getf row :|id|))
+        (:username . ,(getf row :|username|))))))
+
 
 (defun has-user-email (email)
   (and (get-user-by-email email) t))

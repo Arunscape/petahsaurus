@@ -8,7 +8,6 @@ create table IF NOT EXISTS findings (
   long decimal,
   primary key (id),
   FOREIGN KEY(userid) REFERENCES users(id)
-
 );
 
 create table IF NOT EXISTS tags (
