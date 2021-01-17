@@ -5,7 +5,8 @@ const initialState = {
     user: {
         email: null,
         name: null,
-        tok: null
+        tok: null,
+        isfull: []
     },
     filterOpts: {
         only_mine: false,

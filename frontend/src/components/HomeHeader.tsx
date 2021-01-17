@@ -6,7 +6,6 @@ import map from '../assets/mapicon.svg'
 import useClickOutside from '../hooks/useClickOutside'
 
 const StyledHeader = styled.div`
-background-color: #E3B23C;
 color: #fff;
 height: 4.5rem;
 display: flex;
@@ -15,7 +14,7 @@ justify-content: space-around;
 align-items: center;
 padding: 1em;
 margin-bottom: 2em;
-background-color: #E3B23C;
+background-color: #393E41;
 color: #fff;
 `
 const Navi1 = styled.div`

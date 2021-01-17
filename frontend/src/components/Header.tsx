@@ -29,7 +29,7 @@ justify-content: center;
 align-items: baseline;
 padding: 1em;
 margin-bottom: 2em;
-background-color: #E3B23C;
+background-color: #393E41;
 `;
 
 const Navi1 = styled.div`

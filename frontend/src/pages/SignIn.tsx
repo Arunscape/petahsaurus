@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as Api from '../api';
+import useGlobalState from '../hooks/useGlobalState'
 
 const Frame = (props) => <div>{props.children}</div>;
 
@@ -22,7 +23,7 @@ const checkEmail = (email: string, setState) => {
           setState(State.Validating);
           pollForUpgrade(setState);
         })
-        .catch(() => console.log('Could not start signin'));
+        .catch((e) => console.log('Could not start signin', e));
     })
     .catch(() => setState(State.Signup));
 };
@@ -40,14 +41,23 @@ const signup = (email: string, username: string, setState) => {
 const pollForUpgrade = (setState) => {
     console.log('Polling');
     Api.upgrade()
-      .then(() => setState(State.Complete))
-      .catch(() => setTimeout(() => pollForUpgrade(setState), 5000));
+      .then(() => {
+        console.log('polling complete');
+        setState(State.Complete);
+      })
+      .catch(() =>
+        setTimeout(() => {
+          console.log('polling contine');
+          pollForUpgrade(setState);
+        }, 5000),
+      );
 };
 
 const SignIn = () => {
   const [state, setState] = useState(State.GetEmail);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const { setUser, user } = useGlobalState();
   switch (state) {
     case State.GetEmail:
       return (

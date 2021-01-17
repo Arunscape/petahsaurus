@@ -5,14 +5,15 @@ import {Link } from 'react-router-dom'
 const StyledMenu = styled.nav`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background: #EFFFFA;
+  justify-content: space-evenly;
+  background: #D8CFC0;
   transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
   text-align: left;
   position: absolute;
   top: 0;
   left: 0;
   transition: transform 0.3s ease-in-out;
+  max-width: 50%;
   height: 100%;
   max-width: 80%;
 
@@ -21,22 +22,21 @@ const StyledMenu = styled.nav`
     }
 
   a {
-    font-size: 2rem;
     text-transform: uppercase;
-    padding: 2rem 0;
+    padding-right: 2vw;
+    padding-left: 2vw;
+    font-family: 'Open Sans';
     font-weight: bold;
-    letter-spacing: 0.5rem;
-    color: #0D0C1D;
+    color: #423E37;
     text-decoration: none;
     transition: color 0.3s linear;
 
     @media (max-width: 576px) {
-      font-size: 1.5rem;
-      text-align: center;
+      font-size: 100%;
     }
 
     &:hover {
-      color: #343078;
+      color: black;
     }
   }
 `
@@ -46,7 +46,7 @@ const Menu = ({ open }) => {
     <StyledMenu open={open}>
       <Link to="/add">
         <span role="img">🦖</span>
-        Submit Observation
+        New Finding
       </Link>
       <Link to="/notifications">
         <span role="img">🔔</span>
