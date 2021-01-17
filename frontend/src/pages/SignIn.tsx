@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as Api from '../api';
 import useGlobalState from '../hooks/useGlobalState'
 
-const Frame = (props) => <div>{props.children}</div>;
+const Frame = (props) => <div className="jframe">{props.children}</div>;
 
 enum State {
   GetEmail,
@@ -62,7 +62,7 @@ const SignIn = () => {
     case State.GetEmail:
       return (
         <Frame>
-          <p>Getting email</p>
+          <h1>Getting email</h1>
           <input
             key="emailinput"
             type="email"
@@ -83,7 +83,7 @@ const SignIn = () => {
     case State.Signup:
       return (
         <Frame>
-          <p>Signup</p>
+          <h1>Signup</h1>
           <input
             key="nameinput"
             type="text"
@@ -99,21 +99,21 @@ const SignIn = () => {
     case State.Validating:
       return (
         <Frame>
-          <p>Validating</p>
+          <h1>Validating</h1>
         </Frame>
       );
       break;
     case State.Complete:
       return (
         <Frame>
-          <p>Done</p>
+          <h1>Done</h1>
         </Frame>
       );
       break;
     default:
       return (
         <Frame>
-          <p>An error has occured :(</p>
+          <h1>An error has occured :(</h1>
         </Frame>
       );
       break;
