@@ -6,6 +6,7 @@ import submit from '../assets/submiticon.svg'
 import loctag from '../assets/location.svg'
 import addimg from '../assets/addimg.svg'
 import addtag from '../assets/addtag.svg'
+import removetag from '../assets/removetag.svg'
 
 import * as Api from '../api';
 
@@ -78,7 +79,7 @@ const Spacer = styled.div`
   padding-right: 1em;
 `;
 
-const Addtag = styled.button`
+const Addandremovetag = styled.button`
 background: none;
 border: none;
 width: 15vw;
@@ -247,15 +248,15 @@ const NewFindings = () => {
                 <Spacer />
                 <div>{value}</div>
                 <Spacer />
-                <button
+                <Addandremovetag
                   onClick={() => {
                     let copy = { ...finding };
                     delete copy.tags[key];
                     setFinding(copy);
                   }}
                 >
-                  ❌
-                </button>
+                  <img src={removetag}/>
+                </Addandremovetag>
               </KVPair>
             );
           })}
@@ -275,7 +276,7 @@ const NewFindings = () => {
           onChange={(e) => setNewValue(e.target.value)}
         />
         <Spacer />
-        <Addtag
+        <Addandremovetag
           onClick={() => {
             let copy = { ...finding };
             copy.tags[new_key] = new_value;
@@ -285,7 +286,7 @@ const NewFindings = () => {
           }}
         >
           <img src={addtag}/>
-        </Addtag>
+        </Addandremovetag>
       </KVPair>
       <Submitbox>
       <SubmitButton
