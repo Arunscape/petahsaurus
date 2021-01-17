@@ -2,6 +2,7 @@ import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import Header from '../components/Header';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import submit from '../assets/submiticon.svg'
 
 import * as Api from '../api';
 
@@ -27,7 +28,12 @@ const Spacer = styled.div`
   padding-right: 1em;
 `;
 
-const SubmitButton = styled.button``;
+const SubmitButton = styled.button`
+width: 10vw;
+max-width: 4rem;
+background: transparent;
+border: none;
+`;
 
 const NewFindings = () => {
   const [new_key, setNewKey] = useState('');
@@ -238,7 +244,7 @@ const NewFindings = () => {
           }
         }}
       >
-        Submit
+        <img src={submit}/>
       </SubmitButton>
     </StyledBackground>
   );
