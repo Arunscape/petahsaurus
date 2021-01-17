@@ -5,8 +5,14 @@ import styled from 'styled-components';
 import {useLocation } from 'react-router-dom'
 import Header from '..//components/Header';
 
-const Background = styled.div``;
-const StyledImg = styled.img``;
+const Background = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
+const StyledImg = styled.img`
+max-width:50%;
+`;
 const Description = styled.p``;
 const StyledDate = styled.div``;
 const StyledCoords = styled.div``;
@@ -25,8 +31,8 @@ const FindingsPage = () => {
     
     Api.getFinding(id).then(res => {
       setFinding(res.data)
+      console.log(res.data)
     })
-    console.log(finding)
 
 
   }, [])

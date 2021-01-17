@@ -32,6 +32,7 @@ const SubmitButton = styled.button``;
 const NewFindings = () => {
   const [new_key, setNewKey] = useState('');
   const [new_value, setNewValue] = useState('');
+  const [id, setId] = useState<string>();
 
   const inputRef = useRef();
   const history = useHistory();
@@ -53,7 +54,8 @@ const NewFindings = () => {
     if (location.pathname.startsWith('/add')) {
       return;
     }
-    const id = location.pathname.replace('/edit/', '');
+    const getid = location.pathname.replace('/edit/', '');
+    setId(getid);
     Api.getFinding(id).then((res) => {
       let f = res.data;
       if (!f.tags) {
@@ -64,7 +66,16 @@ const NewFindings = () => {
     console.log(finding);
   }, []);
 
-  const submitFunction = async () => {};
+  console.log("UPDATE FINDING", finding);
+
+  const SET_THE_FUCKING_TAGS_SEPARATELY_BECAUSE_PETER_SUCKS = () => {
+    if (!finding || !finding.tags){
+        return;
+    }  
+    Object.entries(finding.tags).forEach(([key, value]:[string, string]) => {
+        Api.setTag(id, key, value)
+    })
+  }
 
   return (
     <StyledBackground>
@@ -102,14 +113,44 @@ const NewFindings = () => {
           reader.readAsDataURL(image);
         }}
       />
-      <button onClick={() => alert('TODO')}>Get location</button>
+      <button onClick={() => {
+          if (!("geolocation" in navigator)) {
+            alert("geolocation not available");
+            return;
+          }
+          navigator.geolocation.getCurrentPosition((pos) => {
+            setFinding({
+                ...finding,
+                coords: {
+                    lat: pos.coords.latitude,
+                    long: pos.coords.longitude
+                }
+            })
+          });
+
+
+      }}>Get location</button>
       <input
         type="text"
         placeholder="identification (what do you think the fossil is?"
+        // @ALEX OR PETER WHAT THE FUCK IS THE TAG NAME CALLED FOR IDENTIFICATION??? E.G. DINOSAURIA
+        // IF IT'S NOT 'id' YOU GOTTA CHANGE IT
+        value={finding.tags && finding.tags['id'] ? finding.tags['id'] : ""}
+        onChange={
+            (e)=> setFinding({
+                ...finding,
+                tags: {
+                    ...finding.tags,
+                    ['id']: e.target.value
+                },
+            })
+        }
       />
       {finding &&
         finding.tags &&
-        Object.entries(finding.tags).map(([key, value]: [string, string]) => {
+        Object.entries(finding.tags)
+        .filter(([key, _]: [string, string]) => key != 'id') // ALED OR PETER IF THE DEFAULT IDENTIFICATION E.G. DINOSAURIA TAG IS NOT 'id' YOU NEED TO CHANGE IT
+        .map(([key, value]: [string, string]) => {
           return (
             <KVPair key={key}>
               <div>{key}</div>
@@ -159,17 +200,25 @@ const NewFindings = () => {
 
       <SubmitButton
         onClick={() => {
+
+            const date = Math.floor(Date.now()/1000);
+            const new_finding = {...finding, date};
+            setFinding(new_finding);
+
+            console.log("submitting this")
+            console.log(finding)
           if (location.pathname.startsWith('/add')) {
-            Api.createFinding(finding).then((data) => {
+            Api.createFinding(new_finding).then((data) => {
               // @arostron or PETER IS THIS NEEDED IDK
               //   for (let [key, value] of tagList) {
               //       console.log("posting for tags: " + key + value);
               //       Api.setTag(data.data.id, key, value);
               //   }
+              setId(data.data.id);
             });
             history.push('/home');
           } else if (location.pathname.startsWith('/edit')) {
-            Api.editFinding(finding).then((data) => {
+            Api.editFinding(new_finding).then((data) => {
               // todo something else?
               // THIS IS WHY Y'ALL SHOULD NOT FUCKING GO TO BED SMH IT'S ONLY MIDNIGHT
               history.push('/home');
