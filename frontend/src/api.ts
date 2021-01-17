@@ -63,6 +63,10 @@ export const getUserIdInfo = (): UserInfo => {
 }
 
 
+export interface User {
+    id: string,
+    username: string,
+};
 
 export interface NewFinding {
     content: string,
@@ -75,7 +79,7 @@ export interface NewFinding {
 }
 
 export interface Finding extends NewFinding {
-    userid: string
+    user?: User
     tags?: {[key:string]: string},
     id: string
 };
@@ -93,7 +97,10 @@ export const editFinding = (id: string, finding: NewFinding): Promise<AxiosRespo
     authapi_put(`${apiPath}/api/finding/${id}`, finding);
 
 export const getAllFindings = (): Promise<AxiosResponse<Finding[]>> =>
-    axios.post(`${apiPath}/api/findings/all`, { data: {tags: false} });
+    axios.get(`${apiPath}/api/findings/all`);
+
+export const getUserFindings = (name: string): Promise<AxiosResponse<Finding[]>> =>
+    axios.get(`${apiPath}/api/user/${name}/findings`);
 
 export const getAllFindingsWithTags = (): Promise<AxiosResponse<Finding[]>> =>
     axios.get(`${apiPath}/api/findings/all?tags=true`);

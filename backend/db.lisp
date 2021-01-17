@@ -8,6 +8,7 @@
    #:get-finding
    #:get-all-findings
    #:get-all-findings-with-tags
+   #:get-user-findings
    #:get-user-by-email
    #:get-user-by-id
    #:get-tags
@@ -64,6 +65,10 @@
   (dbi:prepare *connection*
                "INSERT OR REPLACE INTO tags (findingid, k, v) VALUES (?, ?, ?)"))
 
+(defparameter +get-user-findings-sql+
+  (dbi:prepare *connection*
+               "SELECT * FROM findings JOIN users ON findings.userid=users.id WHERE users.username=?1 OR users.id=?1"))
+
 ;; database public api
 (defun finding-row-to-json (row)
   (when row
@@ -116,6 +121,13 @@
     (apply #'vector
            (loop for row = (dbi:fetch query)
                  while row
+              collect (finding-with-tags-row-to-json row)))))
+
+(defun get-user-findings (username)
+  (let ((query (dbi:execute +get-user-findings-sql+ (list username))))
+    (apply #'vector
+           (loop for row = (dbi:fetch query)
+              while row
               collect (finding-with-tags-row-to-json row)))))
 
 

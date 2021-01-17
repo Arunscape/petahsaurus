@@ -42,3 +42,7 @@
                 (if has-tags
                     (db:get-all-findings-with-tags)
                     (db:get-all-findings))))))
+
+(setf (ningle:route *app* "/api/user/:username/findings" :method :GET)
+      (lambda (params)
+        (json 200 (db:get-user-findings (param params :username)))))
