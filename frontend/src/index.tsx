@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { GlobalStateProvider } from './hooks/useGlobalState';
+import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>

@@ -13,21 +13,22 @@ border: transparent;
 
 const StyledHeader = styled.div`
 box-sizing: border-box;
-width: 100%;
+width: 100vw;
 position: relative;
 display: block;
 justify-content: center;
 align-items: baseline;
 padding: 1em;
 margin-bottom: 2em;
-background-color: #E3B23C;
+/*background-color: #E3B23C;*/
+background-color: red:
 color: #fff;
 `;
 
 
 const Header = () => {
     const history = useHistory();
-  
+
     return (
       <StyledHeader>
         <BackButton onClick={() => history.goBack()}>

@@ -6,7 +6,8 @@ import map from '../assets/mapicon.svg'
 import useClickOutside from '../hooks/useClickOutside'
 
 const StyledHeader = styled.div`
-width: 100%;
+background-color: #E3B23C;
+color: #fff;
 height: 4.5rem;
 display: flex;
 flex-direction: row;
@@ -41,7 +42,7 @@ const HomeHeader = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const node = useRef(); 
+    const node = useRef();
     useClickOutside(node, () => setMenuOpen(false));
 
     return <StyledHeader ref={node}>
