@@ -16,9 +16,7 @@ const NewFindings = () => {
     const [tagVal, setTagVal] = useState("");
     const [picture, setPicture] = useState(null);
     const inputRef = useRef();
-    const imgPreview = useRef();
-
-
+    
     const submitFunction = async () => {
         //console.log("Submit got clicked");
         //console.log(inputRef)
