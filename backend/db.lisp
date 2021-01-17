@@ -80,10 +80,10 @@
               collect (finding-row-to-json row)))))
 
 (defun get-tags (id)
-  (query-helper (dbi:execute +get-tags-sql+ (list id))
-                (lambda (row)
-                  `((key . ,(getf row :|k|))
-                    (value . ,(getf row :|v|))))))
+  (let ((query (dbi:execute +get-tags-sql+ (list id))))
+    (loop for row = (dbi:fetch query)
+       while row
+       collect `(,(getf row :|k|) . ,(getf row :|v|)))))
 
 (defun set-tag (id key value)
   (dbi:execute +set-tag-sql+ (list id key value)))
