@@ -6,7 +6,9 @@
    #:create-finding
    #:get-finding
    #:get-all-findings
-   #:get-user-by-email))
+   #:get-user-by-email
+   #:get-tags
+   #:set-tag))
 
 
 (in-package :petahsaurus.db)
@@ -32,6 +34,14 @@
   (dbi:prepare *connection*
                "SELECT id, email FROM users WHERE email=?"))
 
+(defparameter +get-tags-sql+
+  (dbi:prepare *connection*
+               "SELECT k, v FROM tags WHERE findingid=?"))
+
+(defparameter +set-tag-sql+
+  (dbi:prepare *connection*
+               "INSERT OR REPLACE INTO tags (findingid, k, v) VALUES (?, ?, ?)"))
+
 ;; database public api
 (defun get-finding (id)
   (let ((row (dbi:fetch (dbi:execute +get-finding-sql+ (list id)))))
@@ -41,6 +51,12 @@
         (date . ,(getf row :|findingdate|))
         (coords . ((lat . ,(getf row :|lat|))
                    (long . ,(getf row :|long|))))))))
+
+(defun query-helper (query result-formatter)
+  (apply #'vector
+         (loop for row = (dbi:fetch query)
+               while row
+               collect (funcall result-formatter row))))
 
 ;; database public api
 (defun create-finding (words lat long)
@@ -61,13 +77,17 @@
     (apply #'vector
            (loop for row = (dbi:fetch query)
                  while row
-                 collect (finding-row-to-json row)))))
+              collect (finding-row-to-json row)))))
 
-(defun query-helper (query result-formatter)
-  (apply #'vector
-         (loop for row = (dbi:fetch query)
-               while row
-               collect (funcall result-formatter row))))
+(defun get-tags (id)
+  (query-helper (dbi:execute +get-tags-sql+ (list id))
+                (lambda (row)
+                  `((key . ,(getf row :|k|))
+                    (value . ,(getf row :|v|))))))
+
+(defun set-tag (id key value)
+  (dbi:execute +set-tag-sql+ (list id key value)))
+
 
 (defun get-user-by-email (email)
   (let* ((query (dbi:execute +get-user-by-email-sql+ (list email)))

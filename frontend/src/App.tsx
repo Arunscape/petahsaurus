@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from 'react-router-dom';
 import Home from './pages/Home';
 import NewFinding from './pages/NewFinding';
 import NotFound from './pages/NotFound'
 import SignIn from './pages/SignIn';
+import SearchPage from  './pages/Search'
 import * as Api from './api'
 
 // import logo from './logo.svg';
@@ -29,6 +30,7 @@ const App = ({}: AppProps) => {
       <Route exact path="/add" component={NewFinding}/>
       <Route exact path="/home" component={Home}/>
       <Route exact path="/signin" component={SignIn}/>
+      <Route exact path="/search" component={SearchPage}/>
       <Route component={NotFound}/>
       </Switch>
     </Router>

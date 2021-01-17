@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useReducer, useContext, useEffect } from 'react';
 
 const initialState = {
     loggedIn: false,
@@ -6,6 +6,14 @@ const initialState = {
         email: null,
         name: null,
         tok: null
+    },
+    filterOpts: {
+        only_mine: false,
+        by_user: "",
+        verified: false,
+        needs_id: false,
+        by_date: false,
+        by_location: false,
     }
 }
 
@@ -23,6 +31,11 @@ const globalStateReducer = (state, action) => {
             return {
                 ...state,
                 user: action.payload
+            }
+        case 'SET_FILTER_OPTS':
+            return {
+                ...state,
+                filterOpts: action.payload
             }
         default:
             return state;
@@ -43,12 +56,15 @@ const useGlobalState = () => {
 
     const setLoggedIn = (val) => dispatch({ type: 'SET_LOGGEDIN', payload: val })
     const setUser = (user) => dispatch({ type: 'SET_USER', payload: user })
+    const setFilterOpts = (f) => dispatch({ type: 'SET_FILTER_OPTS', payload: f })
 
     return {
         setLoggedIn,
         setUser,
+        setFilterOpts,
         loggedIn: state.loggedIn,
-        user: state.user
+        user: state.user,
+        filterOpts: state.filterOpts,
     }
 }
 

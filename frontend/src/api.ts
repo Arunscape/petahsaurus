@@ -3,6 +3,7 @@ import type { AxiosResponse } from 'axios';
 
 const apiPath = "http://localhost:5000"
 
+// Signup code
 export const checkEmail = (email) =>
   axios({
     method: 'post',
@@ -10,7 +11,14 @@ export const checkEmail = (email) =>
     data: { email },
   });
 
-interface NewFinding {
+export const signup = (email, username) =>
+  axios({
+    method: 'post',
+    url: apiPath + 'api/signup',
+    data: { email, username },
+  });
+
+export interface NewFinding {
     content: string,
     coords: {
         lat: number,
@@ -18,10 +26,14 @@ interface NewFinding {
     }
 }
 
-interface Finding extends NewFinding {
+export interface Finding extends NewFinding {
     date: string,
+    tags: {[key:string]: string},
     id: string
 };
+
+export const setTag = (id: string, key: string, value: string): Promise<AxiosResponse<void>> =>
+    axios.post(`${apiPath}/api/finding/${id}/tags`, {key, value});
 
 export const getFinding = (id: string): Promise<AxiosResponse<Finding>> =>
     axios.get(`${apiPath}/api/finding/${id}`);
