@@ -14,7 +14,7 @@
          (value (create-token-from-db email)))
     `(200
       (:set-cookie ,(concatenate 'string "jwt=" value "; HttpOnly"))
-      (,(concatenate 'string "http://localhost:5000/validate/" validation)))))
+      (,(concatenate 'string "http://localhost:5000/api/validate/" validation)))))
 
 (setf (ningle:route *app* "/api/checkemail" :method :post)
       (lambda (params)
@@ -34,3 +34,38 @@
       (lambda (params)
         (let ((email (param params "email")))
           (gen-tmp-token email))))
+
+(setf (ningle:route *app* "/api/validate/:vid")
+      (lambda (params)
+        (let ((validation (param params :vid)))
+          (db:validate validation)
+          '(200 () ("Thanks! Please complete your signin!")))))
+
+(setf (ningle:route *app* "/api/validate/:vid")
+      (lambda (params)
+        (let ((validation (param params :vid)))
+          (db:validate validation)
+          '(200 () ("Thanks! Please complete your signin!")))))
+
+(setf (ningle:route *app* "/api/upgrade")
+      (lambda (params)
+        (let* ((cookies (lack.request:request-cookies ningle:*request*))
+               (has-tok (assoc "jwt" cookies :test #'equal))
+               (tok (and has-tok (cdr has-tok))))
+          (if (tok:is-partially-valid tok)
+              (let ((email (tok:get-from-token tok "email")))
+                (gen-tmp-token email))
+            '(401 () ("Invalid Token"))))))
+
+(defun authorized (func)
+  (lambda (params)
+    (let* ((cookies (lack.request:request-cookies ningle:*request*))
+           (has-tok (assoc "jwt" cookies :test #'equal))
+           (tok (and has-tok (cdr has-tok))))
+      (if (tok:is-valid tok)
+          (funcall func params)
+          '(401 () ("Invalid Token"))))))
+
+(setf (ningle:route *app* "/api/refresh")
+      (authorized (lambda (params)
+                    (gen-tmp-token email))))
