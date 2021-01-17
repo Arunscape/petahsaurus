@@ -108,6 +108,7 @@ const Home = () => {
           );
         });
       console.log('filtered', filteredResults);
+      filteredResults.reverse();
       setFindings(filteredResults);
     });
   }, [filterOpts]);
