@@ -13,7 +13,7 @@
   (let* ((validation (db:request-validation email))
          (value (create-token-from-db email)))
     `(200
-      (:set-cookie ,(concatenate 'string "jwt=" value "; HttpOnly"))
+      (:set-cookie ,(concatenate 'string "jwt=" value)) ;"; HttpOnly"))
       (,(concatenate 'string "http://localhost:5000/api/validate/" validation)))))
 
 (setf (ningle:route *app* "/api/checkemail" :method :post)
@@ -34,12 +34,6 @@
       (lambda (params)
         (let ((email (param params "email")))
           (gen-tmp-token email))))
-
-(setf (ningle:route *app* "/api/validate/:vid")
-      (lambda (params)
-        (let ((validation (param params :vid)))
-          (db:validate validation)
-          '(200 () ("Thanks! Please complete your signin!")))))
 
 (setf (ningle:route *app* "/api/validate/:vid")
       (lambda (params)

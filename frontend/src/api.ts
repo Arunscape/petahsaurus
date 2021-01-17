@@ -7,15 +7,28 @@ const apiPath = "http://localhost:5000"
 export const checkEmail = (email) =>
   axios({
     method: 'post',
-    url: apiPath + 'api/checkemail',
+    url: `${apiPath}/api/checkemail`,
     data: { email },
   });
 
 export const signup = (email, username) =>
   axios({
     method: 'post',
-    url: apiPath + 'api/signup',
+    url: `${apiPath}/api/signup`,
     data: { email, username },
+  });
+
+export const signin = (email) =>
+  axios({
+    method: 'post',
+    url: `${apiPath}/api/signin`,
+    data: { email },
+  });
+
+export const upgrade = () =>
+  axios({
+    method: 'get',
+    url: `${apiPath}/api/upgrade`,
   });
 
 export interface NewFinding {
