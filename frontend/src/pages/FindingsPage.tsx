@@ -3,7 +3,7 @@ import type { Finding } from 'src/api';
 import * as Api from '../api'
 import styled from 'styled-components';
 import {useLocation } from 'react-router-dom'
-import Header from '..//components/Header';
+import Header from '../components/Header';
 
 const Background = styled.div`
 display: flex;
@@ -17,7 +17,17 @@ const Description = styled.p``;
 const StyledDate = styled.div``;
 const StyledCoords = styled.div``;
 const StyledTags = styled.div``;
-const Tag = styled.div``;
+const Tag = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  width: 80vw;
+  max-width: 300px;
+  box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.75);
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 10px;
+`;
 const ShareButton = styled.button``;
 
 const FindingsPage = () => {
