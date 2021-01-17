@@ -20,9 +20,7 @@ justify-content: center;
 align-items: baseline;
 padding: 1em;
 margin-bottom: 2em;
-/*background-color: #E3B23C;*/
-background-color: red:
-color: #fff;
+background-color: #E3B23C;
 `;
 
 
