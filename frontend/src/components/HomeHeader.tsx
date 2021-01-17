@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components'
 import map from '../assets/mapicon.svg'
+import logo from '../assets/logofull.svg'
 
 import useClickOutside from '../hooks/useClickOutside'
 
@@ -26,9 +27,15 @@ const Navi2 = styled.div`
 const Navi3 = styled.div`
 /*background-color: red;*/
 `
+const Navi4 = styled.div`
+`
+const Logo = styled.img`
+width: 25vw;
+`
+
 const Map = styled.img`
-height: 4rem;
-width: 4rem;
+width: 10vw;
+max-width: 4rem;
 `
 
 
@@ -60,6 +67,9 @@ const HomeHeader = () => {
         <Navi3>
         <Search/>
         </Navi3>
+        <Navi4>
+            <Logo src={logo}/>
+        </Navi4>
     </StyledHeader>
 }
 
