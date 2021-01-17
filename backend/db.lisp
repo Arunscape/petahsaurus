@@ -110,7 +110,7 @@
     (apply #'vector
            (loop for row = (dbi:fetch query)
                  while row
-              collect (finding-row-to-json row)))))
+              collect (finding-with-tags-row-to-json row)))))
 
 
 (defun get-tags (id)

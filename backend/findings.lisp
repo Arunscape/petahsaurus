@@ -32,9 +32,10 @@
                                               (param (param params "coords") "lat")
                                               (param (param params "coords") "long")))))))
 
-(setf (ningle:route *app* "/api/findings/all" :method :POST)
+(setf (ningle:route *app* "/api/findings/all" :method '(:POST :GET))
       (lambda (params)
-        (let ((has-tags (param params "tags")))
+        (let* ((has-tags-str (param params "tags"))
+               (has-tags (if (stringp has-tags-str) (<json has-tags-str) has-tags-str)))
           (json 200
                 (if has-tags
                     (db:get-all-findings-with-tags)

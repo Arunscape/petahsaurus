@@ -18,6 +18,9 @@
 (defun >json (json)
   (json:encode-json-to-string json))
 
+(defun <json (json)
+  (json:decode-json-from-string json))
+
 (defun return-404 ()
   `(404
     (:content-type "application/json")
