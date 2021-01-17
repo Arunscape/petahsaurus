@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header'
 import styled from 'styled-components';
 import profile from '../assets/profilebrown.svg'
 
 import useGlobalState from '../hooks/useGlobalState';
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 
@@ -13,6 +16,16 @@ const StyledDiv = styled.div`
 const StyledItem = styled.span`
 font-size: 2vw;
 `;
+
+const StyledDateStuff= styled.span`
+display: flex;
+flex-direction: row;
+justify-content: space-space-between;
+`
+
+const Spacer = styled.div`
+padding: 1em;
+`
 
 
 const StyledCheckBox = styled.input``;
@@ -63,6 +76,12 @@ box-sizing: border-box;
 
 const SearchPage = () => {
   const { filterOpts, setFilterOpts } = useGlobalState();
+
+  type DateStuff = {
+    start: Date,
+    end: DataCue,
+    checked: boolean,
+  }
 
   const handleCheckBox = (e) => {
     const name = e.target.name;
@@ -119,13 +138,17 @@ const SearchPage = () => {
         </StyledItem>
         </Whomst>
         <StyledItem>
+          <StyledDateStuff>
+
           Verified
+
           <StyledCheckBox
             type="checkbox"
             name="verified"
             checked={verified}
             onChange={handleCheckBox}
-          />
+            />
+            </StyledDateStuff>
         </StyledItem>
         <StyledItem>
           Needs ID
@@ -137,12 +160,36 @@ const SearchPage = () => {
           />
         </StyledItem>
         <StyledItem>
-          By Date
+          <div>By Date</div>
+          <DatePicker selected={filterOpts.date.start} onChange={start => setFilterOpts({
+            ...filterOpts,
+            date: {
+              ...filterOpts.date,
+              start,
+              unix_start: start.getTime()/1000
+            }
+          })} />
+          <DatePicker selected={filterOpts.date.end} onChange={end => setFilterOpts({
+            ...filterOpts,
+            date: {
+              ...filterOpts.date,
+              end,
+              unix_end: end.getTime()/1000
+            }
+          })} />
           <StyledCheckBox
             type="checkbox"
             name="by_date"
-            checked={by_date}
-            onChange={handleCheckBox}
+            checked={filterOpts.date.checked}
+            onChange={(e) => {
+              setFilterOpts({
+                ...filterOpts,
+                date: {
+                  ...filterOpts.date,
+                  checked: e.target.checked
+                }
+              })
+            }}
           />
         </StyledItem>
         <StyledItem>

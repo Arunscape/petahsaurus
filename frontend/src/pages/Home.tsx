@@ -43,6 +43,7 @@ const Home = () => {
   // YOU SHOULD FEEL BAD ABOUT THIS
 
   useEffect(() => {
+    console.log('filteropts changed', filterOpts);
     Api.getAllFindings().then((res) => {
       console.log('unfiltered results', res.data);
 
@@ -51,7 +52,7 @@ const Home = () => {
         by_user,
         verified,
         needs_id,
-        by_date,
+        date,
         by_location,
       } = filterOpts;
       const filteredResults = res.data
@@ -82,12 +83,22 @@ const Home = () => {
           return finding.tags.needs_id;
         })
         .filter((finding) => {
-          if (!by_date) {
+          if (!date.checked) {
             return true;
           }
+          // JESUS CHRIST WHY DOESN'T THE BACKEND RETURN TAGS UNLESS YOU ASK FOR EACH ID SPECIFCALLY I WASTED AN HOUR ON THIS PETER
+          // WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+          // REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+          //  FILTERING IS BROKEN UNTIL THAT IS FIXED
+          // (╯°Д°)╯︵/(.□ . \)
+          alert(1);
+          console.log(
+            date.start_unix <= finding.tags.date &&
+              finding.tags.date <= date.end_unix,
+          );
           return (
-            by_date.start <= finding.tags.date &&
-            finding.tags.date <= by_date.end
+            date.start_unix <= finding.tags.date &&
+            finding.tags.date <= date.end_unix
           );
         })
         .filter((finding) => {

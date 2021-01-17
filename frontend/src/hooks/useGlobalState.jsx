@@ -13,7 +13,13 @@ const initialState = {
         by_user: "",
         verified: false,
         needs_id: false,
-        by_date: false,
+        date: {
+            start: new Date(),
+            end: new Date(),
+            checked: false,
+            unix_start: new Date().getTime()/1000,
+            unix_end: new Date().getTime/1000,
+        },
         by_location: false,
     }
 }
