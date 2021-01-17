@@ -16,6 +16,8 @@ import useGlobalState from '../hooks/useGlobalState';
 
 import ReactMapGL from 'react-map-gl';
 
+const {SNOWPACK_PUBLIC_APIKEY} = import.meta.env;
+
 const Background = styled.div`
   background-image: url(${background});
   background-repeat: repeat;
@@ -132,7 +134,7 @@ const Home = () => {
           width="100%"
           height="100%"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
-          mapboxApiAccessToken={process.env.APIKEY}
+          mapboxApiAccessToken={SNOWPACK_PUBLIC_APIKEY}
         />
       </StyledMapBox>
     );
