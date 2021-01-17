@@ -17,16 +17,15 @@ height: 4rem;
 width: 4rem;
 background-color: transparent;
 border: transparent;
-float: right;
 `
 
 const StyledHeader = styled.div`
 box-sizing: border-box;
+display: flex;
+flex-direction: row;
 width: 100vw;
-position: relative;
-display: block;
-justify-content: center;
-align-items: baseline;
+justify-content: space-between;
+align-items: center;
 padding: 1em;
 background-color: #393E41;
 `;
@@ -53,9 +52,9 @@ const Header = () => {
 
     return (
       <StyledHeader>
-        <BackButton onClick={() => history.goBack()}>
+        <EditButton onClick={() => history.goBack()}>
           <img src={back} />
-        </BackButton>
+        </EditButton>
 
         {location.pathname.startsWith('/finding') && (
           <Link to={`/edit/${id}`}>
