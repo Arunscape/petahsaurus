@@ -8,7 +8,7 @@ import useClickOutside from '../hooks/useClickOutside'
 
 const StyledHeader = styled.div`
 color: #fff;
-height: 4.5rem;
+height: 5rem;
 display: flex;
 flex-direction: row;
 justify-content: space-around;

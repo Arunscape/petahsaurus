@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import submit from '../assets/submiticon.svg'
+import loctag from '../assets/location.svg'
 
 import * as Api from '../api';
 
@@ -18,15 +19,52 @@ const KVPair = styled.span`
 `;
 
 const StyledBackground = styled.div`
-  display: flex;
+display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
+  align-content: center;
+`;
+
+const Locbutton = styled.button`
+background: transparent;
+border: none;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+`;
+
+const Loctag = styled.img`
+width: 10vw;
+max-width: 2rem;
+padding: 0.5rem;
+`;
+
+const Loctext = styled.div`
+font-size: 5vw;
+font-size: max(1.5rem);
+`;
+
+const Idinput = styled.input`
+border-style: solid;
+border-top: none;
+border-right: none;
+border-left: none;
+border-color: #ABA59B;
+font-size: 2vw;
+box-sizing: border-box;
+width: 50vw;
+max-width: 40rem;
 `;
 
 const Spacer = styled.div`
   padding-left: 1em;
   padding-right: 1em;
 `;
+
+const Submitbox = styled.div`
+`
 
 const SubmitButton = styled.button`
 width: 10vw;
@@ -126,7 +164,7 @@ const NewFindings = () => {
           reader.readAsDataURL(image);
         }}
       />
-      <button
+      <Locbutton
         onClick={() => {
           if (!('geolocation' in navigator)) {
             alert('geolocation not available');
@@ -143,11 +181,14 @@ const NewFindings = () => {
           });
         }}
       >
+        <Loctag src={loctag}/>
+        <Loctext>
         Get location
-      </button>
-      <input
+        </Loctext>
+      </Locbutton>
+      <Idinput
         type="text"
-        placeholder="identification (what do you think the fossil is?"
+        placeholder="identification (what organism is it?)"
         // @ALEX OR PETER WHAT THE FUCK IS THE TAG NAME CALLED FOR IDENTIFICATION??? E.G. DINOSAURIA
         // IF IT'S NOT 'identification' YOU GOTTA CHANGE IT
         value={
@@ -216,7 +257,7 @@ const NewFindings = () => {
           ✅
         </button>
       </KVPair>
-
+      <Submitbox>
       <SubmitButton
         onClick={() => {
           const date = Math.floor(Date.now() / 1000);
@@ -246,6 +287,7 @@ const NewFindings = () => {
       >
         <img src={submit}/>
       </SubmitButton>
+      </Submitbox>
     </StyledBackground>
   );
 };
