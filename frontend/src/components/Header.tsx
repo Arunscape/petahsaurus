@@ -14,17 +14,17 @@ justify-content: space-around;
 align-items: center;
 padding: 1em;
 margin-bottom: 2em;
-background-color: rgb(192, 45, 26);
+background-color: #E3B23C;
 color: #fff;
 `
 const Navi1 = styled.div`
-background-color: green;
+/*background-color: green;*/
 `
 const Navi2 = styled.div`
-background-color: blue;
+/*background-color: blue;*/
 `
 const Navi3 = styled.div`
-background-color: red;
+/*background-color: red;*/
 `
 const Map = styled.img`
 height: 4rem;
