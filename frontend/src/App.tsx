@@ -6,6 +6,7 @@ import NotFound from './pages/NotFound'
 import SignIn from './pages/SignIn';
 import SearchPage from  './pages/SearchPage'
 import * as Api from './api'
+import FindingsPage from './pages/FindingsPage';
 
 // import logo from './logo.svg';
 // import './App.css';
@@ -31,6 +32,7 @@ const App = ({}: AppProps) => {
       <Route exact path="/home" component={Home}/>
       <Route exact path="/signin" component={SignIn}/>
       <Route exact path="/search" component={SearchPage}/>
+      <Route path="/finding" component={FindingsPage}/> {/*route is not exact*/}
       <Route component={NotFound}/>
       </Switch>
     </Router>

@@ -37,7 +37,7 @@ import Search from './Search';
 import Menu from './Menu'
 
 
-const Header = () => {
+const HomeHeader = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -66,4 +66,4 @@ const Header = () => {
 }
 
 
-export default Header;
+export default HomeHeader;
