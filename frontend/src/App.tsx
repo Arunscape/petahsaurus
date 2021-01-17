@@ -33,6 +33,7 @@ const App = ({}: AppProps) => {
       <Route exact path="/signin" component={SignIn}/>
       <Route exact path="/search" component={SearchPage}/>
       <Route path="/finding" component={FindingsPage}/> {/*route is not exact*/}
+      <Route path="/edit" component={NewFinding}/> {/*route is not exact*/}
       <Route component={NotFound}/>
       </Switch>
     </Router>

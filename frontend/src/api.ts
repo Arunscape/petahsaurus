@@ -59,5 +59,8 @@ export const getFinding = (id: string): Promise<AxiosResponse<Finding>> =>
 export const createFinding = (finding: NewFinding): Promise<AxiosResponse<{id: string}>> =>
     axios.post(`${apiPath}/api/finding`, finding);
 
+export const editFinding = (finding: NewFinding): Promise<AxiosResponse<{id: string}>> =>
+    axios.put(`${apiPath}/api/finding`, finding);
+
 export const getAllFindings = (): Promise<AxiosResponse<Finding[]>> =>
     axios.get(`${apiPath}/api/findings/all`);
