@@ -15,14 +15,14 @@ justify-content: center; /* horizontal */
 
 const StyledImg = styled.img`
 height: auto;
-width: 100%;
+width: 30%;
 `
 
 const StyledH1 = styled.h1`
 `
 const StyledButton = styled.button``;
 
-import Arun from '../assets/Arun_idk.png'
+import Garros from '../assets/Garros_sad.png'
 
 const NotFound = () => {
 
@@ -31,7 +31,7 @@ const NotFound = () => {
 
 
     return <StyledDiv>
-        <StyledImg src={Arun}/>
+        <StyledImg src={Garros}/>
         <StyledH1>404 page not found {location.pathname}</StyledH1>
         <StyledButton onClick={() => history.goBack()}>Go Back</StyledButton>
         </StyledDiv>
