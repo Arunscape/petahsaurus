@@ -323,7 +323,7 @@ const NewFindings = () => {
               SET_THE_FUCKING_TAGS_SEPARATELY_BECAUSE_PETER_SUCKS(data.data.id);
             });
           } else if (location.pathname.startsWith('/edit')) {
-            Api.editFinding(new_finding).then((data) => {
+            Api.editFinding(user, new_finding).then((data) => {
               // todo something else?
               // THIS IS WHY Y'ALL SHOULD NOT FUCKING GO TO BED SMH IT'S ONLY MIDNIGHT
               SET_THE_FUCKING_TAGS_SEPARATELY_BECAUSE_PETER_SUCKS(id);
