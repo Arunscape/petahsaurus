@@ -11,7 +11,7 @@ create table IF NOT EXISTS findings (
 create table IF NOT EXISTS tags (
   findingid int,
   k TEXT,
-  V TEXT,
+  v TEXT,
   FOREIGN KEY(findingid) REFERENCES findings(id),
   PRIMARY KEY(findingid, k)
 );

@@ -9,7 +9,8 @@
    #:param
    #:starts-with
    #:make-id
-   #:get-unix-time))
+   #:get-unix-time
+   #:no-content))
 
 (in-package :petahsaurus.util)
 
@@ -47,3 +48,6 @@
 
 (defun get-unix-time ()
   (universal-to-unix-time (get-universal-time)))
+
+(defun no-content ()
+  '(204 () ()))
