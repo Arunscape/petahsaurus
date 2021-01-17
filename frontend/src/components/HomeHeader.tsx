@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components'
 import map from '../assets/mapicon.svg'
+import licon from '../assets/listview.svg'
 import logo from '../assets/logofull.svg'
 
 import useClickOutside from '../hooks/useClickOutside'
@@ -43,33 +44,40 @@ import Search from './Search';
 import Menu from './Menu'
 
 
-const HomeHeader = () => {
+const HomeHeader = (props) => {
 
     const [menuOpen, setMenuOpen] = useState(false);
 
     const node = useRef();
     useClickOutside(node, () => setMenuOpen(false));
 
-    return <StyledHeader ref={node}>
+    return (
+      <StyledHeader ref={node}>
         <Navi1>
-        <HamburgerButton
-          open={menuOpen}
-          setOpen={setMenuOpen}
-        />
-        <Menu open={menuOpen}/>
+          <HamburgerButton open={menuOpen} setOpen={setMenuOpen} />
+          <Menu open={menuOpen} />
         </Navi1>
         <Navi2>
-        <Link to="/map">
-            <Map src={map} />
-        </Link>
+          {props.isHome ? (
+            <Link to="/map">
+              {' '}
+              <Map src={map} />{' '}
+            </Link>
+          ) : (
+            <Link to="/home">
+              {' '}
+              <Map src={licon} />{' '}
+            </Link>
+          )}
         </Navi2>
         <Navi3>
-        <Search/>
+          <Search />
         </Navi3>
         <Navi4>
-            <Logo src={logo}/>
+          <Logo src={logo} />
         </Navi4>
-    </StyledHeader>
+      </StyledHeader>
+    );
 }
 
 
