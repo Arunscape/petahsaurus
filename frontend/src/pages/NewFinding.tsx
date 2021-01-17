@@ -30,11 +30,13 @@ padding: 0.5rem;
 
 const KVPair = styled.span`
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
+  max-width: 100vw;
   align-items: center;
   padding-left: 30px;
   padding-right: 30px;
-  background-color: pink;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 const StyledBackground = styled.div`
@@ -71,7 +73,7 @@ border-top: none;
 border-right: none;
 border-left: none;
 border-color: #ABA59B;
-font-size: 2vw;
+font-size: 2em;
 box-sizing: border-box;
 width: 50vw;
 max-width: 40rem;
@@ -223,7 +225,7 @@ const NewFindings = () => {
       </Locbutton>
       <Idinput
         type="text"
-        placeholder="identification (what organism is it?)"
+        placeholder="What is it?"
         // @ALEX OR PETER WHAT THE FUCK IS THE TAG NAME CALLED FOR IDENTIFICATION??? E.G. DINOSAURIA
         // IF IT'S NOT 'identification' YOU GOTTA CHANGE IT
         value={

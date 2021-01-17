@@ -192,7 +192,7 @@ const Home = () => {
 
   return (
     <Background>
-      <Header />
+      <Header isHome={location.pathname.startsWith('/home')}/>
       {location.pathname.startsWith('/home') && <HomeList />}
       {location.pathname.startsWith('/map') && <HomeMap />}
     </Background>

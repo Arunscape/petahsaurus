@@ -15,6 +15,8 @@ const StyledDiv = styled.div`
 
 const StyledItem = styled.span`
 font-size: 2vw;
+padding: 1rem;
+font-size: min(1rem);
 `;
 
 const StyledDateStuff= styled.span`
@@ -35,6 +37,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 font-family: 'Open Sans';
+padding-top: 3vh;
 `;
 const Whomst = styled.div`
 display: flex;
@@ -46,10 +49,12 @@ border-top: none;
 border-left: none;
 border-right: none;
 `
-const Whomsttag = styled.div`
+const Description = styled.div`
 color: #565149;
 font-size: 3vw;
 text-align: left;
+padding-bottom: 5vh;
+font-size: min(1.5rem);
 `
 const Profilebox = styled.div`
 display: flex;
@@ -60,7 +65,27 @@ const Profile = styled.img`
 height: auto;
 width: 3vw;
 padding: 0.5rem;
-`
+`;
+
+const Quality = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+border-style: solid;
+border-color: #ABA59B;
+border-top: none;
+border-left: none;
+border-right: none;`;
+
+const Infosort = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+border-style: solid;
+border-color: #ABA59B;
+border-top: none;
+border-left: none;
+border-right: none;`;
 
 const StyledInput = styled.input`
 border-style: solid;
@@ -69,6 +94,7 @@ border-right: none;
 border-left: none;
 border-color: #ABA59B;
 font-size: 2vw;
+font-size: min(1rem);
 box-sizing: border-box;
 `;
 
@@ -112,9 +138,9 @@ const SearchPage = () => {
       <Header />
       <SearchOptions>
         <Whomst>
-          <Whomsttag>
-          Who made it?
-          </Whomsttag>
+          <Description>
+          Sort by who made it
+          </Description>
         <StyledItem>
             Show only my observations
           <StyledCheckBox
@@ -137,6 +163,10 @@ const SearchPage = () => {
           </Profilebox>
         </StyledItem>
         </Whomst>
+        <Quality>
+        <Description>
+          Sort by quality of data
+          </Description>
         <StyledItem>
           <StyledDateStuff>
 
@@ -159,6 +189,10 @@ const SearchPage = () => {
             onChange={handleCheckBox}
           />
         </StyledItem>
+        </Quality>
+        <Description>
+          Sort by information
+          </Description>
         <StyledItem>
           <div>By Date</div>
           <DatePicker selected={filterOpts.date.start} onChange={start => setFilterOpts({
@@ -192,6 +226,7 @@ const SearchPage = () => {
             }}
           />
         </StyledItem>
+        <Infosort>
         <StyledItem>
           By Location
           <StyledCheckBox
@@ -201,6 +236,7 @@ const SearchPage = () => {
             onChange={handleCheckBox}
           />
         </StyledItem>
+        </Infosort>
       </SearchOptions>
     </StyledDiv>
   );

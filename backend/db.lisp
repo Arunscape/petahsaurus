@@ -8,7 +8,9 @@
    #:get-finding
    #:get-all-findings
    #:get-all-findings-with-tags
+   #:get-user-findings
    #:get-user-by-email
+   #:get-user-by-id
    #:get-tags
    #:set-tag
    #:has-user-email
@@ -27,18 +29,21 @@
 ;; prepared statements
 (defparameter +create-finding-sql+
   (dbi:prepare *connection*
-               "INSERT OR REPLACE INTO findings (id, words, picture, findingdate, lat, long) VALUES (?, ?, ?, ?, ?, ?)"))
+               "INSERT OR REPLACE INTO findings (id, userid, words, picture, findingdate, lat, long) VALUES (?, ?, ?, ?, ?, ?, ?)"))
 
 (defparameter +get-finding-sql+
   (dbi:prepare *connection*
-               "SELECT id, words, picture, findingdate, lat, long FROM findings WHERE id=?"))
+               "SELECT * FROM findings WHERE id=?"))
 
 (defparameter +get-all-findings-sql+
   (dbi:prepare *connection*
-               "SELECT id, words, findingdate, picture, lat, long FROM findings"))
+               "SELECT * FROM findings"))
 
 (defparameter +get-user-by-email-sql+
   (dbi:prepare *connection* "SELECT id, email, validation FROM users WHERE email=?"))
+
+(defparameter +get-user-by-id-sql+
+  (dbi:prepare *connection* "SELECT * FROM users WHERE id=?"))
 
 (defparameter +set-user-validation-sql+
   (dbi:prepare *connection*
@@ -60,6 +65,10 @@
   (dbi:prepare *connection*
                "INSERT OR REPLACE INTO tags (findingid, k, v) VALUES (?, ?, ?)"))
 
+(defparameter +get-user-findings-sql+
+  (dbi:prepare *connection*
+               "SELECT * FROM findings JOIN users ON findings.userid=users.id WHERE users.username=?1 OR users.id=?1"))
+
 ;; database public api
 (defun finding-row-to-json (row)
   (when row
@@ -67,6 +76,7 @@
       (content . ,(getf row :|words|))
       (image . ,(getf row :|picture|))
       (date . ,(getf row :|findingdate|))
+      (user . ,(get-user-by-id (getf row :|userid|)))
       (coords . ((lat . ,(getf row :|lat|))
                  (long . ,(getf row :|long|)))))))
 
@@ -79,13 +89,13 @@
                while row
                collect (funcall result-formatter row))))
 
-(defun create-finding (words picture time lat long)
+(defun create-finding (userid words picture time lat long)
   (let ((id (util:random-string 8)))
-    (dbi:execute +create-finding-sql+ (list id words picture time lat long))
+    (dbi:execute +create-finding-sql+ (list id userid words picture time lat long))
     id))
 
-(defun update-finding (id words picture time lat long)
-    (dbi:execute +create-finding-sql+ (list id words picture time lat long))
+(defun update-finding (userid id words picture time lat long)
+    (dbi:execute +create-finding-sql+ (list id userid words picture time lat long))
     id)
 
 (defun finding-with-tags-row-to-json (row)
@@ -94,6 +104,7 @@
       (content . ,(getf row :|words|))
       (image . ,(getf row :|picture|))
       (date . ,(getf row :|findingdate|))
+      (user . ,(get-user-by-id (getf row :|userid|)))
       (coords . ((lat . ,(getf row :|lat|))
                  (long . ,(getf row :|long|))))
       (tags . ,(get-tags (getf row :|id|))))))
@@ -110,6 +121,13 @@
     (apply #'vector
            (loop for row = (dbi:fetch query)
                  while row
+              collect (finding-with-tags-row-to-json row)))))
+
+(defun get-user-findings (username)
+  (let ((query (dbi:execute +get-user-findings-sql+ (list username))))
+    (apply #'vector
+           (loop for row = (dbi:fetch query)
+              while row
               collect (finding-with-tags-row-to-json row)))))
 
 
@@ -131,6 +149,13 @@
                                      (:validation . ,(getf row :|validation|))))))
          (has-email (= 1 (length res))))
     (and has-email (elt res 0))))
+
+(defun get-user-by-id (id)
+  (let* ((row (dbi:fetch (dbi:execute +get-user-by-id-sql+ (list id)))))
+    (when row
+      `((:id . ,(getf row :|id|))
+        (:username . ,(getf row :|username|))))))
+
 
 (defun has-user-email (email)
   (and (get-user-by-email email) t))

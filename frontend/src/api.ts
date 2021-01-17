@@ -37,6 +37,12 @@ const authapi = (data) => {
   return axios(data)
 }
 
+const authapi_post = (url, data) =>
+    axios.post(url, {...data, tok: localStorage.getItem('tok')});
+
+const authapi_put = (url, data) =>
+    axios.put(url, {...data, tok: localStorage.getItem('tok')});
+
 export const upgrade = () =>
   recieveToken(authapi({
     method: 'post',
@@ -57,6 +63,10 @@ export const getUserIdInfo = (): UserInfo => {
 }
 
 
+export interface User {
+    id: string,
+    username: string,
+};
 
 export interface NewFinding {
     content: string,
@@ -69,6 +79,7 @@ export interface NewFinding {
 }
 
 export interface Finding extends NewFinding {
+    user?: User
     tags?: {[key:string]: string},
     id: string
 };
@@ -80,13 +91,16 @@ export const getFinding = (id: string): Promise<AxiosResponse<Finding>> =>
     axios.get(`${apiPath}/api/finding/${id}`);
 
 export const createFinding = (finding: NewFinding): Promise<AxiosResponse<{id: string}>> =>
-    axios.post(`${apiPath}/api/finding`, finding);
+    authapi_post(`${apiPath}/api/finding`, finding);
 
-export const editFinding = (finding: NewFinding): Promise<AxiosResponse<{id: string}>> =>
-    axios.put(`${apiPath}/api/finding`, finding);
+export const editFinding = (id: string, finding: NewFinding): Promise<AxiosResponse<{id: string}>> =>
+    authapi_put(`${apiPath}/api/finding/${id}`, finding);
 
 export const getAllFindings = (): Promise<AxiosResponse<Finding[]>> =>
-    axios.post(`${apiPath}/api/findings/all`, { data: {tags: false} });
+    axios.get(`${apiPath}/api/findings/all`);
+
+export const getUserFindings = (name: string): Promise<AxiosResponse<Finding[]>> =>
+    axios.get(`${apiPath}/api/user/${name}/findings`);
 
 export const getAllFindingsWithTags = (): Promise<AxiosResponse<Finding[]>> =>
     axios.get(`${apiPath}/api/findings/all?tags=true`);
