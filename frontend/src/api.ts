@@ -20,6 +20,8 @@ export const signup = (email, username) =>
 
 export interface NewFinding {
     content: string,
+    image: string,
+    date: number,
     coords: {
         lat: number,
         long: number
@@ -27,8 +29,7 @@ export interface NewFinding {
 }
 
 export interface Finding extends NewFinding {
-    date: string,
-    tags: {[key:string]: string},
+    tags?: {[key:string]: string},
     id: string
 };
 
