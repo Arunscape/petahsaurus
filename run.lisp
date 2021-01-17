@@ -4,4 +4,4 @@
 (defvar *swankpath* nil)
 (ql:quickload '(clack petahsaurus))
 (when *swankpath* (load *swankpath*))
-(clack:clackup petahsaurus.api:*static-app* :use-thread nil)
+(clack:clackup petahsaurus.api:*static-app* :use-thread nil :address "0.0.0.0")
