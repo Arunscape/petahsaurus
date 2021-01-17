@@ -16,7 +16,6 @@ function TagEditor(props) {
         }
     }))}/>
         <input type="text" onChange={(e) => setter(props.original.map((element: [string, string], i:number) => {
-        console.log(props.original);
         if (i === index) {
             return [element[0], e.target.value]
         } else {
@@ -56,6 +55,7 @@ const NewFindings = () => {
           reader.readAsDataURL(picture);
           setPicture(reader.result.toString())
         }
+
 
         //Api.setTag(id, tagKey, tagVal);
         
