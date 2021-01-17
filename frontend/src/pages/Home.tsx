@@ -9,6 +9,20 @@ import {
 import Header from '../components/HomeHeader';
 import FindingCard from '../components/FindingCard';
 import * as Api from '../api';
+import styled from 'styled-components';
+import background from '../assets/background.svg'
+
+const Background = styled.div`
+display: 'flex',
+alignItems: 'center',
+justifyContent: 'center',
+position: 'fixed',
+backgroundImage: "url('https://raw.githubusercontent.com/Arunscape/About-Me/master/src/images/background.jpg')",
+backgroundRepeat: "no-repeat",
+backgroundPosition: "center center",
+backgroundSize: "cover",
+backgroundAttachment: "fixed"
+`
 
 const Home = () => {
   const [findings, setFindings] = useState([]);
@@ -19,12 +33,12 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <Background>
       <Header />
       {findings.map((finding: Api.Finding) => (
         <FindingCard finding={finding}/>
       ))}
-    </div>
+    </Background>
   );
 };
 
