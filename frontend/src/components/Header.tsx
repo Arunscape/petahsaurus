@@ -20,7 +20,7 @@ justify-content: center;
 align-items: baseline;
 padding: 1em;
 margin-bottom: 2em;
-background-color: #E3B23C;
+background-color: #393E41;
 `;
 
 const Navi1 = styled.div`
@@ -36,12 +36,6 @@ const Map = styled.img`
 height: 4rem;
 width: 4rem;
 `
-
-
-import HamburgerButton from './HamburgerButton'
-import Search from './Search';
-import Menu from './Menu'
-
 
 const Header = () => {
     const history = useHistory();

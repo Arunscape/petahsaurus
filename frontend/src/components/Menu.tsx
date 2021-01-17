@@ -6,8 +6,7 @@ const StyledMenu = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  background: #EDEBD7;
-  padding-bottom: 10rem;
+  background: #D8CFC0;
   transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
   text-align: left;
   position: absolute;

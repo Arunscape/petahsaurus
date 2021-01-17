@@ -13,15 +13,9 @@ import styled from 'styled-components';
 import background from '../assets/background.svg'
 
 const Background = styled.div`
-display: 'flex',
-alignItems: 'center',
-justifyContent: 'center',
-position: 'fixed',
-backgroundImage: "url('https://raw.githubusercontent.com/Arunscape/About-Me/master/src/images/background.jpg')",
-backgroundRepeat: "no-repeat",
-backgroundPosition: "center center",
-backgroundSize: "cover",
-backgroundAttachment: "fixed"
+background-image: url(${background});
+background-repeat: repeat;
+height: 100vh;
 `
 
 const Home = () => {
