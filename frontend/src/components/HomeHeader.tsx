@@ -14,7 +14,6 @@ flex-direction: row;
 justify-content: space-around;
 align-items: center;
 padding: 1em;
-margin-bottom: 2em;
 background-color: #393E41;
 color: #fff;
 `
