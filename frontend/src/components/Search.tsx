@@ -1,11 +1,18 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import search from '../assets/searchicon.svg'
+import styled from 'styled-components'
 
+const StyledSearch = styled.img`
+height: 4rem;
+width: 4rem;
+`
 
+const Search = () => {
 
-const Search = () => <Link to="/search">
+    return <Link to="/search">
 
-<span role="img">🔍</span>
-</Link>
-
+        <StyledSearch src={search} />
+    </Link>
+}
 export default Search;
