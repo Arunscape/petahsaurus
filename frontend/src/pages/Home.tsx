@@ -26,36 +26,86 @@ const Background = styled.div`
 `;
 
 const StyledMapBox = styled.div`
-width: 100%;
-height: 100%;
+  width: 100%;
+  height: 100%;
 `;
 
 const Home = () => {
   const [findings, setFindings] = useState<Api.Finding[]>([]);
+
   const location = useLocation();
   // findings is a list of all Api.findings
-  const {filterOpts} = useGlobalState(); 
+  const { filterOpts } = useGlobalState();
+
+  // PETER THE BACKEND IS SUPPOSED TO DO THE FILTERING
+  // THIS IS NOT SCALABLE AT ALL
+  // THIS IS NOT MAINTAINABLE AT ALL
+  // YOU SHOULD FEEL BAD ABOUT THIS
 
   useEffect(() => {
     Api.getAllFindings().then((res) => {
-      setFindings(res.data);
-      // filter findings to only those with veri tags
-      //console.log("length: " + res.data.length);
+      console.log('unfiltered results', res.data);
+
+      const {
+        only_mine,
+        by_user,
+        verified,
+        needs_id,
+        by_date,
+        by_location,
+      } = filterOpts;
+      const filteredResults = res.data
+        .filter((finding) => {
+          // todo get own user id
+          if (!only_mine) {
+            return true;
+          }
+          const my_user_id = '';
+          return my_user_id === finding.id;
+        })
+        .filter((finding) => {
+          if (!by_user) {
+            return true;
+          }
+          return by_user === finding.tags.user; // PETER WHY IS THERE NO USER FIELD
+        })
+        .filter((finding) => {
+          if (!verified) {
+            return true;
+          }
+          return finding.tags.verified;
+        })
+        .filter((finding) => {
+          if (!needs_id) {
+            return true;
+          }
+          return finding.tags.needs_id;
+        })
+        .filter((finding) => {
+          if (!by_date) {
+            return true;
+          }
+          return (
+            by_date.start <= finding.tags.date &&
+            finding.tags.date <= by_date.end
+          );
+        })
+        .filter((finding) => {
+          if (!by_location) {
+            return true;
+          }
+          // bruv we have tdo create a geofence :/
+          return true;
+        });
+      console.log('filtered', filteredResults);
+      setFindings(filteredResults);
     });
-  }, []);
-
-  useEffect(() => {
-    if (findings.length > 0) {
-      
-      //setFindings(findings.filter(f => {f.tags && Object.entries(f.tags).find( ([k, v]) => {k === "veri"}) }));
-    }
-  }, [findings]);
-
+  }, [filterOpts]);
 
   const HomeList = () => (
     <>
       {findings.map((finding: Api.Finding) => (
-        <FindingCard finding={finding} />
+        <FindingCard key={finding.id} finding={finding} />
       ))}
     </>
   );
@@ -72,7 +122,6 @@ const Home = () => {
           {...viewport}
           width="100%"
           height="100%"
-          // mapStyle="mapbox://styles/mapbox/streets-v11"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
           mapboxApiAccessToken={APIKEY}
         />
