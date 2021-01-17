@@ -89,4 +89,4 @@ export const getAllFindings = (): Promise<AxiosResponse<Finding[]>> =>
     axios.post(`${apiPath}/api/findings/all`, { data: {tags: false} });
 
 export const getAllFindingsWithTags = (): Promise<AxiosResponse<Finding[]>> =>
-    axios.post(`${apiPath}/api/findings/all`, { data: {tags: true} });
+    axios.get(`${apiPath}/api/findings/all?tags=true`);
