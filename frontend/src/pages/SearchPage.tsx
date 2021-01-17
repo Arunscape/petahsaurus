@@ -7,9 +7,6 @@ import useGlobalState from '../hooks/useGlobalState';
 const BackButton = styled.button``;
 
 const StyledDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const StyledItem = styled.span``;
@@ -29,7 +26,11 @@ const StyledHeader = styled.div`
 
 const StyledCheckBox = styled.input``;
 
-const SearchOptions = styled.div``;
+const SearchOptions = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
 
 const StyledInput = styled.input``;
 
