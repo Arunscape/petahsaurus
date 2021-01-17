@@ -23,9 +23,9 @@ const StyledBackground = styled.div`
 `;
 
 const Spacer = styled.div`
-padding-left: 1em;
-padding-right: 1em;
-`
+  padding-left: 1em;
+  padding-right: 1em;
+`;
 
 const SubmitButton = styled.button``;
 
@@ -64,18 +64,25 @@ const NewFindings = () => {
       setFinding(f);
     });
     console.log(finding);
-  }, []);
+  }, [id]);
 
-  console.log("UPDATE FINDING", finding);
+  console.log('UPDATE FINDING', finding);
 
-  const SET_THE_FUCKING_TAGS_SEPARATELY_BECAUSE_PETER_SUCKS = () => {
-    if (!finding || !finding.tags){
-        return;
-    }  
-    Object.entries(finding.tags).forEach(([key, value]:[string, string]) => {
-        Api.setTag(id, key, value)
-    })
-  }
+  const SET_THE_FUCKING_TAGS_SEPARATELY_BECAUSE_PETER_SUCKS = async (
+    the_fucking_id: string,
+  ) => {
+    if (!finding || !finding.tags) {
+      return;
+    }
+    await Promise.all(
+      Object.entries(finding.tags).map(
+        async ([key, value]: [string, string]) => {
+          await Api.setTag(the_fucking_id, key, value);
+        },
+      ),
+    );
+    history.push('/home');
+  };
 
   return (
     <StyledBackground>
@@ -113,62 +120,68 @@ const NewFindings = () => {
           reader.readAsDataURL(image);
         }}
       />
-      <button onClick={() => {
-          if (!("geolocation" in navigator)) {
-            alert("geolocation not available");
+      <button
+        onClick={() => {
+          if (!('geolocation' in navigator)) {
+            alert('geolocation not available');
             return;
           }
           navigator.geolocation.getCurrentPosition((pos) => {
             setFinding({
-                ...finding,
-                coords: {
-                    lat: pos.coords.latitude,
-                    long: pos.coords.longitude
-                }
-            })
+              ...finding,
+              coords: {
+                lat: pos.coords.latitude,
+                long: pos.coords.longitude,
+              },
+            });
           });
-
-
-      }}>Get location</button>
+        }}
+      >
+        Get location
+      </button>
       <input
         type="text"
         placeholder="identification (what do you think the fossil is?"
         // @ALEX OR PETER WHAT THE FUCK IS THE TAG NAME CALLED FOR IDENTIFICATION??? E.G. DINOSAURIA
-        // IF IT'S NOT 'id' YOU GOTTA CHANGE IT
-        value={finding.tags && finding.tags['id'] ? finding.tags['id'] : ""}
-        onChange={
-            (e)=> setFinding({
-                ...finding,
-                tags: {
-                    ...finding.tags,
-                    ['id']: e.target.value
-                },
-            })
+        // IF IT'S NOT 'identification' YOU GOTTA CHANGE IT
+        value={
+          finding.tags && finding.tags.identification
+            ? finding.tags.identification
+            : ''
+        }
+        onChange={(e) =>
+          setFinding({
+            ...finding,
+            tags: {
+              ...finding.tags,
+              identification: e.target.value,
+            },
+          })
         }
       />
       {finding &&
         finding.tags &&
         Object.entries(finding.tags)
-        .filter(([key, _]: [string, string]) => key != 'id') // ALED OR PETER IF THE DEFAULT IDENTIFICATION E.G. DINOSAURIA TAG IS NOT 'id' YOU NEED TO CHANGE IT
-        .map(([key, value]: [string, string]) => {
-          return (
-            <KVPair key={key}>
-              <div>{key}</div>
-              <Spacer/>
-              <div>{value}</div>
-              <Spacer/>
-              <button
-                onClick={() => {
-                  let copy = { ...finding };
-                  delete copy.tags[key];
-                  setFinding(copy);
-                }}
-              >
-                ❌
-              </button>
-            </KVPair>
-          );
-        })}
+          .filter(([key, _]: [string, string]) => key != 'identification') // ALED OR PETER IF THE DEFAULT IDENTIFICATION E.G. DINOSAURIA TAG IS NOT 'identification' YOU NEED TO CHANGE IT
+          .map(([key, value]: [string, string]) => {
+            return (
+              <KVPair key={key}>
+                <div>{key}</div>
+                <Spacer />
+                <div>{value}</div>
+                <Spacer />
+                <button
+                  onClick={() => {
+                    let copy = { ...finding };
+                    delete copy.tags[key];
+                    setFinding(copy);
+                  }}
+                >
+                  ❌
+                </button>
+              </KVPair>
+            );
+          })}
 
       <KVPair>
         <input
@@ -177,14 +190,14 @@ const NewFindings = () => {
           value={new_key}
           onChange={(e) => setNewKey(e.target.value)}
         />
-        <Spacer/>
+        <Spacer />
         <input
           type="text"
           placeholder="value example 69kg"
           value={new_value}
           onChange={(e) => setNewValue(e.target.value)}
         />
-        <Spacer/>
+        <Spacer />
         <button
           onClick={() => {
             let copy = { ...finding };
@@ -200,13 +213,12 @@ const NewFindings = () => {
 
       <SubmitButton
         onClick={() => {
+          const date = Math.floor(Date.now() / 1000);
+          const new_finding = { ...finding, date };
+          setFinding(new_finding);
 
-            const date = Math.floor(Date.now()/1000);
-            const new_finding = {...finding, date};
-            setFinding(new_finding);
-
-            console.log("submitting this")
-            console.log(finding)
+          console.log('submitting this');
+          console.log(finding);
           if (location.pathname.startsWith('/add')) {
             Api.createFinding(new_finding).then((data) => {
               // @arostron or PETER IS THIS NEEDED IDK
@@ -215,13 +227,13 @@ const NewFindings = () => {
               //       Api.setTag(data.data.id, key, value);
               //   }
               setId(data.data.id);
+              SET_THE_FUCKING_TAGS_SEPARATELY_BECAUSE_PETER_SUCKS(data.data.id);
             });
-            history.push('/home');
           } else if (location.pathname.startsWith('/edit')) {
             Api.editFinding(new_finding).then((data) => {
               // todo something else?
               // THIS IS WHY Y'ALL SHOULD NOT FUCKING GO TO BED SMH IT'S ONLY MIDNIGHT
-              history.push('/home');
+              SET_THE_FUCKING_TAGS_SEPARATELY_BECAUSE_PETER_SUCKS(id);
             });
           }
         }}
