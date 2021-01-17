@@ -32,7 +32,10 @@
                                               (param (param params "coords") "lat")
                                               (param (param params "coords") "long")))))))
 
-(setf (ningle:route *app* "/api/findings/all")
+(setf (ningle:route *app* "/api/findings/all" :method :POST)
       (lambda (params)
-        (declare (ignore params))
-        (json 200 (db:get-all-findings))))
+        (let ((has-tags (param params "tags")))
+          (json 200
+                (if has-tags
+                    (db:get-all-findings-with-tags)
+                    (db:get-all-findings))))))

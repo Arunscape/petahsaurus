@@ -86,4 +86,7 @@ export const editFinding = (finding: NewFinding): Promise<AxiosResponse<{id: str
     axios.put(`${apiPath}/api/finding`, finding);
 
 export const getAllFindings = (): Promise<AxiosResponse<Finding[]>> =>
-    axios.get(`${apiPath}/api/findings/all`);
+    axios.post(`${apiPath}/api/findings/all`, { data: {tags: false} });
+
+export const getAllFindingsWithTags = (): Promise<AxiosResponse<Finding[]>> =>
+    axios.post(`${apiPath}/api/findings/all`, { data: {tags: true} });

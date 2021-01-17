@@ -7,6 +7,7 @@
    #:update-finding
    #:get-finding
    #:get-all-findings
+   #:get-all-findings-with-tags
    #:get-user-by-email
    #:get-tags
    #:set-tag
@@ -87,6 +88,15 @@
     (dbi:execute +create-finding-sql+ (list id words picture time lat long))
     id)
 
+(defun finding-with-tags-row-to-json (row)
+  (when row
+    `((id . ,(getf row :|id|))
+      (content . ,(getf row :|words|))
+      (image . ,(getf row :|picture|))
+      (date . ,(getf row :|findingdate|))
+      (coords . ((lat . ,(getf row :|lat|))
+                 (long . ,(getf row :|long|))))
+      (tags . ,(get-tags (getf row :|id|))))))
 
 (defun get-all-findings ()
   (let ((query (dbi:execute +get-all-findings-sql+)))
@@ -94,6 +104,14 @@
            (loop for row = (dbi:fetch query)
                  while row
               collect (finding-row-to-json row)))))
+
+(defun get-all-findings-with-tags ()
+  (let ((query (dbi:execute +get-all-findings-sql+)))
+    (apply #'vector
+           (loop for row = (dbi:fetch query)
+                 while row
+              collect (finding-row-to-json row)))))
+
 
 (defun get-tags (id)
   (let ((query (dbi:execute +get-tags-sql+ (list id))))
