@@ -12,6 +12,7 @@ import NewFinding from './pages/NewFinding';
 import NotFound from './pages/NotFound';
 import SignIn from './pages/SignIn';
 import SearchPage from './pages/SearchPage';
+import Profile from './pages/Profile';
 import * as Api from './api';
 import FindingsPage from './pages/FindingsPage';
 // import logo from './logo.svg';
@@ -46,6 +47,7 @@ const App = ({}: AppProps) => {
         <Route exact path="/map" component={Home} />
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/search" component={SearchPage} />
+        <Route exact path="/profile" component={Profile} />
         <Route path="/finding" component={FindingsPage} />{' '}
         {/*route is not exact*/}
         <Route path="/edit" component={NewFinding} /> {/*route is not exact*/}

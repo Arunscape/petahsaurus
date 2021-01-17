@@ -10,12 +10,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 
-const StyledDiv = styled.div`
-`;
+const StyledDiv = styled.div``;
 
 const StyledItem = styled.span`
 font-size: 2vw;
-padding: 1rem;
 font-size: min(1rem);
 `;
 
@@ -30,6 +28,12 @@ padding: 1em;
 `
 
 
+const HR = styled.hr`
+  height: 1px;
+  width: 80vw;
+  border: 0;
+  background-color: grey;
+`;
 const StyledCheckBox = styled.input``;
 
 const SearchOptions = styled.div`
@@ -39,21 +43,12 @@ align-items: center;
 font-family: 'Open Sans';
 padding-top: 3vh;
 `;
-const Whomst = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-border-style: solid;
-border-color: #ABA59B;
-border-top: none;
-border-left: none;
-border-right: none;
-`
 const Description = styled.div`
 color: #565149;
 font-size: 3vw;
 text-align: left;
-padding-bottom: 5vh;
+padding-top: 2em;
+padding-bottom: 1em;
 font-size: min(1.5rem);
 `
 const Profilebox = styled.div`
@@ -67,32 +62,16 @@ width: 3vw;
 padding: 0.5rem;
 `;
 
-const Quality = styled.div`
+const Whomst = styled.div``
+const Quality = styled.div``;
+const Infosort = styled.div``;
+const StyledInput = styled.input``;
+
+const Box = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-border-style: solid;
-border-color: #ABA59B;
-border-top: none;
-border-left: none;
-border-right: none;`;
-
-const Infosort = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-border-style: solid;
-border-color: #ABA59B;
-border-top: none;
-border-left: none;
-border-right: none;`;
-
-const StyledInput = styled.input`
-border-style: solid;
-border-top: none;
-border-right: none;
-border-left: none;
-border-color: #ABA59B;
+padding-bottom: 2vh;
 font-size: 2vw;
 font-size: min(1rem);
 box-sizing: border-box;
@@ -137,7 +116,7 @@ const SearchPage = () => {
     <StyledDiv>
       <Header />
       <SearchOptions>
-        <Whomst>
+        <Box>
           <Description>
           Sort by who made it
           </Description>
@@ -162,8 +141,9 @@ const SearchPage = () => {
           />
           </Profilebox>
         </StyledItem>
-        </Whomst>
-        <Quality>
+        </Box>
+        <HR></HR>
+        <Box>
         <Description>
           Sort by quality of data
           </Description>
@@ -189,7 +169,9 @@ const SearchPage = () => {
             onChange={handleCheckBox}
           />
         </StyledItem>
-        </Quality>
+        </Box>
+        <HR></HR>
+        <Box>
         <Description>
           Sort by information
           </Description>
@@ -226,7 +208,6 @@ const SearchPage = () => {
             }}
           />
         </StyledItem>
-        <Infosort>
         <StyledItem>
           By Location
           <StyledCheckBox
@@ -236,7 +217,7 @@ const SearchPage = () => {
             onChange={handleCheckBox}
           />
         </StyledItem>
-        </Infosort>
+        </Box>
       </SearchOptions>
     </StyledDiv>
   );
