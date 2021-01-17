@@ -7,10 +7,9 @@ const NewFindings = () => {
 
 
     const submitFunction = () => {
-        console.log("Submit got clicked");
-        console.log(inputRef)
-        setPicture(picture)
-
+        //console.log("Submit got clicked");
+        //console.log(inputRef)
+        //console.log(picture)
     }
 
     return <div>
@@ -19,7 +18,6 @@ const NewFindings = () => {
         <input ref={inputRef} type="file" accept="image/x-png,image/jpeg" onChange={(e) => setPicture(e.target.files.item(0)) }/>
         <button onClick={ submitFunction } > Submit </button> <br></br>
         <br></br>
-        <img src={picture}/>
     </div>
 }
 
