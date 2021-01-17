@@ -8,13 +8,12 @@ const StyledMenu = styled.nav`
   justify-content: center;
   background: #EFFFFA;
   transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
-  height: 100vh;
   text-align: left;
-  padding: 2rem;
   position: absolute;
   top: 0;
   left: 0;
   transition: transform 0.3s ease-in-out;
+  height: 100%;
 
   @media (max-width: 576px) {
       width: 100%;

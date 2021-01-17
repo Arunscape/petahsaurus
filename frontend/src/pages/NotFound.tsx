@@ -4,8 +4,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 
 
 const StyledDiv = styled.div`
-height: 100vh;
-width: 100vw;
 overflow: hidden;
 display: flex;
 flex-direction: column;
