@@ -47,11 +47,9 @@ const HomeHeader = () => {
 
     return <StyledHeader ref={node}>
         <Navi1>
-        <HamburgerButton onClick={() => {
-            setMenuOpen(!menuOpen)
-            console.log("menuopen")
-        }}
-        setOpen={setMenuOpen}
+        <HamburgerButton
+          open={menuOpen}
+          setOpen={setMenuOpen}
         />
         <Menu open={menuOpen}/>
         </Navi1>
