@@ -31,12 +31,26 @@ height: 100%;
 `;
 
 const Home = () => {
-  const [findings, setFindings] = useState([]);
+  const [findings, setFindings] = useState<Api.Finding[]>([]);
   const location = useLocation();
+  // findings is a list of all Api.findings
+  const {filterOpts} = useGlobalState(); 
 
   useEffect(() => {
-    Api.getAllFindings().then((res) => setFindings(res.data));
+    Api.getAllFindings().then((res) => {
+      setFindings(res.data);
+      // filter findings to only those with veri tags
+      //console.log("length: " + res.data.length);
+    });
   }, []);
+
+  useEffect(() => {
+    if (findings.length > 0) {
+      
+      //setFindings(findings.filter(f => {f.tags && Object.entries(f.tags).find( ([k, v]) => {k === "veri"}) }));
+    }
+  }, [findings]);
+
 
   const HomeList = () => (
     <>
@@ -65,7 +79,6 @@ const Home = () => {
       </StyledMapBox>
     );
   };
-  const { filterOpts } = useGlobalState();
 
   return (
     <Background>
