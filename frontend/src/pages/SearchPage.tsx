@@ -2,9 +2,15 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import profile from '../assets/profilebrown.svg'
+import back from '../assets/backarrow.svg'
 import useGlobalState from '../hooks/useGlobalState';
 
-const BackButton = styled.button``;
+const BackButton = styled.button`
+height: 4rem;
+width: 4rem;
+background-color: transparent;
+border: transparent;
+`;
 
 const StyledDiv = styled.div`
 `;
@@ -36,7 +42,6 @@ const Whomst = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-border: 2px;
 `
 const Whomsttag = styled.div`
 color: #565149;
@@ -59,7 +64,9 @@ const SearchHeader = () => {
 
   return (
     <StyledHeader>
-      <BackButton onClick={() => history.goBack()}>Go Back</BackButton>
+      <BackButton onClick={() => history.goBack()}>
+      <img src={back} />
+      </BackButton>
     </StyledHeader>
   );
 };
