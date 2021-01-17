@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as Api from '../api';
-import useGlobalState from '../hooks/useGlobalState'
+import { useHistory } from 'react-router-dom';
 
 const Frame = (props) => <div className="jframe">{props.children}</div>;
 
@@ -13,7 +13,7 @@ enum State {
 }
 const bindInputToState = (setter) => (event) => setter(event.target.value);
 
-const checkEmail = (email: string, setState) => {
+const checkEmail = (email: string, setState, history) => {
   console.log(email);
   Api.checkEmail(email)
     .then(() => {
@@ -21,34 +21,35 @@ const checkEmail = (email: string, setState) => {
       Api.signin(email)
         .then(() => {
           setState(State.Validating);
-          pollForUpgrade(setState);
+          pollForUpgrade(setState, history);
         })
         .catch((e) => console.log('Could not start signin', e));
     })
     .catch(() => setState(State.Signup));
 };
 
-const signup = (email: string, username: string, setState) => {
+const signup = (email: string, username: string, setState, history) => {
   console.log(email);
   Api.signup(email, username)
     .then(() => {
       setState(State.Validating);
-      pollForUpgrade(setState);
+      pollForUpgrade(setState, history);
     })
     .catch(() => console.log('Could not start signup'));
 };
 
-const pollForUpgrade = (setState) => {
+const pollForUpgrade = (setState, history) => {
     console.log('Polling');
     Api.upgrade()
       .then(() => {
         console.log('polling complete');
         setState(State.Complete);
+        history.push('/home');
       })
       .catch(() =>
         setTimeout(() => {
           console.log('polling contine');
-          pollForUpgrade(setState);
+          pollForUpgrade(setState, history);
         }, 5000),
       );
 };
@@ -57,7 +58,8 @@ const SignIn = () => {
   const [state, setState] = useState(State.GetEmail);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
-  const { setUser, user } = useGlobalState();
+  const history = useHistory();
+
   switch (state) {
     case State.GetEmail:
       return (
@@ -69,7 +71,7 @@ const SignIn = () => {
             placeholder="email@example.com"
             onChange={bindInputToState(setEmail)}
           />
-          <button onClick={() => checkEmail(email, setState)}>Next</button>
+          <button onClick={() => checkEmail(email, setState, history)}>Next</button>
         </Frame>
       );
       break;
@@ -90,7 +92,7 @@ const SignIn = () => {
             placeholder="Name"
             onChange={bindInputToState(setUsername)}
           />
-          <button onClick={() => signup(email, username, setState)}>
+          <button onClick={() => signup(email, username, setState, history)}>
             Next
           </button>
         </Frame>
