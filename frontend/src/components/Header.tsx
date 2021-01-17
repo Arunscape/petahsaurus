@@ -18,7 +18,7 @@ width: 4rem;
 background-color: transparent;
 border: transparent;
 float: right;
-background-color: green;
+background-color: #79b473;
 `
 
 const StyledHeader = styled.div`
