@@ -304,9 +304,8 @@ const NewFindings = () => {
           const needs_id = !!finding.tags.identification
             const new_finding: Api.Finding = { ...finding, date, tags:{
             ...finding.tags,
-            user,
             verified: verified.toString(),
-                needs_id: needs_id.toString(),
+            needs_id: needs_id.toString(),
           } };
           setFinding(new_finding);
 
