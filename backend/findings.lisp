@@ -10,8 +10,11 @@
 
 (setf (ningle:route *app* "/api/finding/:id/tags" :method :POST)
       (lambda (params)
-        (db:set-tag (param params :id) (param params "key") (param params "value"))
-        (no-content)))
+        (if (db:get-finding (param params :id))
+            (progn
+              (db:set-tag (param params :id) (param params "key") (param params "value"))
+              (no-content))
+            (return-404))))
 
 (setf (ningle:route *app* "/api/finding" :method :POST)
       (lambda (params)
