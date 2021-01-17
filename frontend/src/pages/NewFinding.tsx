@@ -5,18 +5,34 @@ import {useHistory} from 'react-router-dom'
 import * as Api from '../api';
 
 
+// I hate this Im sorry
 function TagEditor(props) {
+    const index: number = props.index;
+    const setter = props.setter;
     return <div>
-        <p>Tag #1</p>
-        <input type="text" onChange={(e) => props.keySetter(e.target.value)}/>
-        <input type="text" onChange={(e) => props.valSetter(e.target.value)}/>
+        <span>Tag </span> <span>{index}</span>
+        <input type="text" onChange={(e) => setter(props.original.map((element: [string, string], i:number) => {
+        if (i === index) {
+            return [e.target.value, element[1]]
+        } else {
+            return element; 
+        }
+    }))}/>
+        <input type="text" onChange={(e) => setter(props.original.map((element: [string, string], i:number) => {
+        if (i === index) {
+            return [element[0], e.target.value]
+        } else {
+            return element; 
+        }
+    }))}/>
     </div>
 }
 
 const NewFindings = () => {
+
+
+    const [tagList, setTagList] = useState([]);
     const [descr, setDescr] = useState("");
-    const [tagKey, setTagKey] = useState("");
-    const [tagVal, setTagVal] = useState("");
     const [picture, setPicture] = useState(null);
     const inputRef = useRef();
     const history = useHistory();
@@ -26,8 +42,7 @@ const NewFindings = () => {
         //console.log(inputRef)
         //console.log(picture)
         //console.log(descr);
-        console.log(tagKey + " " + tagVal);
-
+        //console.log(tagKey + " " + tagVal);
         const reader = new FileReader();
 
         reader.addEventListener("load", function () {
@@ -49,6 +64,11 @@ const NewFindings = () => {
 
 
         //Api.setTag(id, tagKey, tagVal);
+        
+        // itterate over all the tag values 
+        for (let t of tagList) {
+            console.log(t);
+        }
     }
 
     return <div>
@@ -61,7 +81,8 @@ const NewFindings = () => {
         }}/>
         <p>description</p>
         <input type="text" onChange={(e) => setDescr(e.target.value)}/>
-        <TagEditor keySetter={setTagKey} valSetter={setTagVal}></TagEditor>
+        {tagList.map((t, i) => <TagEditor index={i} setter={setTagList} original={tagList}></TagEditor>)}
+        <br></br><button onClick={ () => setTagList([...tagList, ["", ""]]) } > more tags </button>
         <br></br><button onClick={ submitFunction } > Submit </button>
         <img src={picture}/>
     </div>
