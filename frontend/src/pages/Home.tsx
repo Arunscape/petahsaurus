@@ -6,6 +6,7 @@ import {
   Link,
   Redirect,
   useLocation,
+  useHistory,
 } from 'react-router-dom';
 import Header from '../components/HomeHeader';
 import FindingCard from '../components/FindingCard';
@@ -14,11 +15,10 @@ import styled from 'styled-components';
 import background from '../assets/background.svg';
 import useGlobalState from '../hooks/useGlobalState';
 
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, { Marker, Pin } from 'react-map-gl';
 
 const { SNOWPACK_PUBLIC_APIKEY } = import.meta.env;
 
-import { fromJS } from 'immutable';
 
 const Background = styled.div`
   background-image: url(${background});
@@ -142,57 +142,50 @@ const Home = () => {
         });
       });
     }, []);
-
-    const mapStyle = fromJS({
-      version: 8,
-      sources: {
-        points: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: [
-              // {
-              //   type: 'Feature',
-              //   geometry: { type: 'Point', coordinates: [-122.45, 37.78] },
-              // },
-              findings.map(f => ({
-                type: 'Feature',
-                geometry: {type: 'Point', coordinates: [f.coords.long, f.coords.lat]}
-              }))
-            ],
-          },
-        },
-      },
-      layers: [
-        {
-          id: 'my-layer',
-          type: 'circle',
-          source: 'points',
-          paint: {
-            'circle-color': '#f00',
-            'circle-radius': 4,
-          },
-        },
-      ],
-    });
-
+    const SIZE = 20;
+    const history = useHistory();
     return (
       <StyledMapBox className="mapbox-react">
         <ReactMapGL
           {...viewport}
-          mapStype={mapStyle}
           width="100%"
           height="100%"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
           mapboxApiAccessToken={SNOWPACK_PUBLIC_APIKEY}
-        />
+        >
+          {findings.map((f, index) => {
+            console.log("MARKER", f.coords)
+            return (
+              <Marker
+                key={`marker-${index}`}
+                longitude={f.coords.long}
+                latitude={f.coords.lat}
+              >
+                <svg
+          height={SIZE}
+          viewBox="0 0 24 24"
+          style={{
+            cursor: 'pointer',
+            fill: '#d00',
+            stroke: 'none',
+            transform: `translate(${-SIZE / 2}px,${-SIZE}px)`,
+            border: "1px red solid"
+          }}
+          onClick={() => {
+            history.push(`/finding/${f.id}`)
+          }}
+        ></svg>
+              </Marker>
+            );
+          })}
+        </ReactMapGL>
       </StyledMapBox>
     );
   };
 
   return (
     <Background>
-      <Header/>
+      <Header />
       {location.pathname.startsWith('/home') && <HomeList />}
       {location.pathname.startsWith('/map') && <HomeMap />}
     </Background>
