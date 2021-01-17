@@ -4,12 +4,27 @@ import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import submit from '../assets/submiticon.svg'
 import loctag from '../assets/location.svg'
+import addimg from '../assets/addimg.svg'
+import addtag from '../assets/addtag.svg'
 
 import * as Api from '../api';
 
 const StyledImage = styled.img`
   width: 50%;
   border: 1px solid red;
+`;
+
+const Addimg = styled.input`
+display: none;
+`;
+
+const ImgUpload = styled.div`
+/* display: none; */
+`
+const Addimgicon = styled.img`
+width: 30vw;
+max-width: 5rem;
+padding: 0.5rem;
 `;
 
 const KVPair = styled.span`
@@ -61,6 +76,14 @@ max-width: 40rem;
 const Spacer = styled.div`
   padding-left: 1em;
   padding-right: 1em;
+`;
+
+const Addtag = styled.button`
+background: none;
+border: none;
+width: 15vw;
+max-width: 3rem;
+padding: 0.5rem;
 `;
 
 const Submitbox = styled.div`
@@ -136,37 +159,44 @@ const NewFindings = () => {
           src={finding ? finding.image : 'https://via.placeholder.com/150'}
         />
       )}
-      <input
+      <ImgUpload>
+{/* REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE */}
+      <Addimg
         ref={inputRef}
+        id="file-input"
         type="file"
         accept="image/x-png,image/jpeg"
         onChange={(e) => {
-          let reader = new FileReader();
-          let image = e.target.files[0];
-
-          // ok so basically, reader.readAsDataURL happens first
-          // this event listener waits for it to finish converting to base64
-          // then it  does stuff inside here
-          reader.addEventListener(
-            'load',
-            () => {
-              console.log('BASE64 image:');
-              console.log(reader.result.toString());
-              const new_finding = {
-                ...finding,
-                image: reader.result.toString(),
-              };
-              setFinding(new_finding);
-            },
-            false,
-          );
-
-          reader.readAsDataURL(image);
-        }}
-      />
+            let reader = new FileReader();
+            let image = e.target.files[0];
+            
+            // ok so basically, reader.readAsDataURL happens first
+            // this event listener waits for it to finish converting to base64
+            // then it  does stuff inside here
+            reader.addEventListener(
+                'load',
+                () => {
+                    console.log('BASE64 image:');
+                    console.log(reader.result.toString());
+                    const new_finding = {
+                        ...finding,
+                        image: reader.result.toString(),
+                    };
+                    setFinding(new_finding);
+                },
+                false,
+                );
+                
+                reader.readAsDataURL(image);
+            }}
+            />
+      <label for="file-input">
+    <Addimgicon src={addimg}/>
+    </label>
+    </ImgUpload>
       <Locbutton
         onClick={() => {
-          if (!('geolocation' in navigator)) {
+            if (!('geolocation' in navigator)) {
             alert('geolocation not available');
             return;
           }
@@ -245,7 +275,7 @@ const NewFindings = () => {
           onChange={(e) => setNewValue(e.target.value)}
         />
         <Spacer />
-        <button
+        <Addtag
           onClick={() => {
             let copy = { ...finding };
             copy.tags[new_key] = new_value;
@@ -254,8 +284,8 @@ const NewFindings = () => {
             setNewValue('');
           }}
         >
-          ✅
-        </button>
+          <img src={addtag}/>
+        </Addtag>
       </KVPair>
       <Submitbox>
       <SubmitButton
