@@ -5,17 +5,27 @@ import styled from 'styled-components'
 import useClickOutside from '../hooks/useClickOutside'
 
 const StyledHeader = styled.div`
-box-sizing: border-box;
 width: 100%;
-position: relative;
-display: block;
-justify-content: center;
-align-items: baseline;
+height: 4.5rem;
+display: flex;
+flex direction: row;
+justify-content: space-around;
+align-items: center;
 padding: 1em;
 margin-bottom: 2em;
 background-color: rgb(192, 45, 26);
 color: #fff;
-`;
+`
+const Navi1 = styled.div`
+background-color: green;
+`
+const Navi2 = styled.div`
+background-color: blue;
+`
+const Navi3 = styled.div`
+background-color: red;
+`
+
 
 import HamburgerButton from './HamburgerButton'
 import Search from './Search';
@@ -30,6 +40,7 @@ const Header = () => {
     useClickOutside(node, () => setMenuOpen(false));
 
     return <StyledHeader ref={node}>
+        <Navi1>
         <HamburgerButton onClick={() => {
             setMenuOpen(!menuOpen)
             console.log("menuopen")
@@ -37,10 +48,15 @@ const Header = () => {
         setOpen={setMenuOpen}
         />
         <Menu open={menuOpen}/>
+        </Navi1>
+        <Navi2>
         <Link to="/map">
             Go to Map
         </Link>
+        </Navi2>
+        <Navi3>
         <Search/>
+        </Navi3>
     </StyledHeader>
 }
 
