@@ -18,7 +18,7 @@ export const signup = (email, username) =>
     data: { email, username },
   });
 
-interface NewFinding {
+export interface NewFinding {
     content: string,
     coords: {
         lat: number,
@@ -26,10 +26,14 @@ interface NewFinding {
     }
 }
 
-interface Finding extends NewFinding {
+export interface Finding extends NewFinding {
     date: string,
+    tags: {[key:string]: string},
     id: string
 };
+
+export const setTag = (id: string, key: string, value: string): Promise<AxiosResponse<void>> =>
+    axios.post(`${apiPath}/api/finding/${id}/tags`, {key, value});
 
 export const getFinding = (id: string): Promise<AxiosResponse<Finding>> =>
     axios.get(`${apiPath}/api/finding/${id}`);
