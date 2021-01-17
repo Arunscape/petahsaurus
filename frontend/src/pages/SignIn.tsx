@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import * as Api from '../api';
 import { useHistory } from 'react-router-dom';
+import icon from '../assets/appicon.svg';
 
-const Frame = (props) => <div className="jframe">{props.children}</div>;
+const Frame = (props) => <div className="jframe">
+  <img src={icon} />
+  {props.children}
+  </div>;
 
 enum State {
   GetEmail,
