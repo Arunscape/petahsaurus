@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-
+import profile from '../assets/profilebrown.svg'
 import useGlobalState from '../hooks/useGlobalState';
 
 const BackButton = styled.button``;
@@ -30,7 +30,27 @@ const SearchOptions = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
+font-family: 'Open Sans';
 `;
+const Whomst = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+border: 2px;
+`
+const Whomsttag = styled.div`
+color: #565149;
+`
+const Profilebox = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+`
+const Profile = styled.img`
+height: 1.5rem;
+width: 1.5rem;
+padding: 0.5rem;
+`
 
 const StyledInput = styled.input``;
 
@@ -75,8 +95,12 @@ const SearchPage = () => {
     <StyledDiv>
       <SearchHeader />
       <SearchOptions>
+        <Whomst>
+          <Whomsttag>
+          Who made it?
+          </Whomsttag>
         <StyledItem>
-            Only Mine
+            Show only my observations
           <StyledCheckBox
             type="checkbox"
             name="only_mine"
@@ -85,14 +109,18 @@ const SearchPage = () => {
           />
         </StyledItem>
         <StyledItem>
-            By User
+          <Profilebox>
+            <Profile src={profile} />
           <StyledInput
             type="text"
+            placeholder="User"
             name="by_user"
             value={by_user}
             onChange={handleText}
           />
+          </Profilebox>
         </StyledItem>
+        </Whomst>
         <StyledItem>
           Verified
           <StyledCheckBox
