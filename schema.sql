@@ -19,6 +19,7 @@ create table IF NOT EXISTS tags (
 create table IF NOT EXISTS users (
   username TEXT,
   email TEXT,
+  validation TEXT,
   id INTEGER PRIMARY KEY AUTOINCREMENT
 );
 
@@ -26,5 +27,5 @@ create table IF NOT EXISTS userdata (
   userid INTEGER,
   dataname TEXT,
   datavalue TEXT,
-  FOREIGN KEY(userid) REFERENCES user(id)
+  FOREIGN KEY(userid) REFERENCES users(id)
 );
