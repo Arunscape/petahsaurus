@@ -1,4 +1,5 @@
 import React, { useState , useRef} from 'react'
+import * as Api from '../api';
 
 const NewFindings = () => {
     const [descr, setDescr] = useState("");
@@ -11,6 +12,10 @@ const NewFindings = () => {
         //console.log(inputRef)
         //console.log(picture)
         //console.log(descr);
+
+        Api.createFinding({content: "eat shit", coords: {lat: 5.5, long: 5.5}})
+            //.then((resp) => Api.getFinding(resp.data.id))
+            .then((data) => console.log(data.data));
     }
 
     return <div>
