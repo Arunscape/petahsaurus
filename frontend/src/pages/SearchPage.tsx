@@ -26,7 +26,7 @@ const StyledHeader = styled.div`
   align-items: baseline;
   padding: 1em;
   margin-bottom: 2em;
-  background-color: rgb(192, 45, 26);
+  background-color: #E3B23C;
   color: #fff;
 `;
 
