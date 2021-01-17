@@ -23,7 +23,7 @@ const checkEmail = (email: string, setState) => {
           setState(State.Validating);
           pollForUpgrade(setState);
         })
-        .catch(() => console.log('Could not start signin'));
+        .catch((e) => console.log('Could not start signin', e));
     })
     .catch(() => setState(State.Signup));
 };

@@ -39,9 +39,6 @@
 (defparameter +get-user-by-email-sql+
   (dbi:prepare *connection* "SELECT id, email, validation FROM users WHERE email=?"))
 
-(defparameter +get-user-by-validation-sql+
-  (dbi:prepare *connection* "SELECT id FROM users WHERE validation=?"))
-
 (defparameter +set-user-validation-sql+
   (dbi:prepare *connection*
                "UPDATE users SET validation=\"COMPLETE\" WHERE validation=?"))

@@ -9,10 +9,21 @@
          (isfull (string= validate "COMPLETE")))
     (tok:create-token id email isfull)))
 
+(defun has-user-verified (email)
+  (let* ((usr (db:get-user-by-email email))
+         (vvalidate (assoc :validation usr))
+         (validate (and vvalidate (cdr vvalidate)))
+         (isfull (string= validate "COMPLETE")))
+    isfull))
+
 (defun gen-tmp-token (email)
   (let* ((validation (db:request-validation email))
          (value (create-token-from-db email)))
     (format t "~A~%" (concatenate 'string "http://localhost:5000/api/validate/" validation))
+    (json 200 `((tok . ,(concatenate 'string value))))))
+
+(defun gen-full-token (email)
+  (let* ((value (create-token-from-db email)))
     (json 200 `((tok . ,(concatenate 'string value))))))
 
 (setf (ningle:route *app* "/api/checkemail" :method :post)
@@ -45,7 +56,9 @@
         (let ((tok (param params "tok")))
           (if (tok:is-partially-valid tok)
               (let ((email (tok:get-from-token tok "email")))
-                (gen-tmp-token email))
+                (if (has-user-verified email)
+                    (gen-full-token email)
+                    '(400 () ("User never verified"))))
             '(401 () ("Invalid Token"))))))
 
 (defun authorized (func)
@@ -57,4 +70,4 @@
 
 (setf (ningle:route *app* "/api/refresh")
       (authorized (lambda (params)
-                    (gen-tmp-token email))))
+                    (gen-full-token email))))

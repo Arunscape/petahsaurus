@@ -7,7 +7,6 @@ import SignIn from './pages/SignIn';
 import SearchPage from  './pages/SearchPage'
 import * as Api from './api'
 import FindingsPage from './pages/FindingsPage';
-
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -21,13 +20,17 @@ const App = ({}: AppProps) => {
 
   //Api.getAllFindings()
   //    .then((data) => console.log(data.data));
-
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          <Redirect to="/signin"/>
-        </Route>
+      <Route exact path="/" component={() => {
+        const history = useHistory();
+        Api.upgrade()
+          .then(() => history.push('/home'))
+          .catch(() => history.push('/signin'));
+
+        return <div>loading...</div>;
+      }}/>
       <Route exact path="/add" component={NewFinding}/>
       <Route exact path="/home" component={Home}/>
       <Route exact path="/signin" component={SignIn}/>

@@ -2,20 +2,13 @@ import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 
 const apiPath = "http://localhost:5000";
-(window as any).token = "";
-
 const recieveToken = (data) => {
-  const promise = new Promise((resolve, reject) => {
-    data
-      .then((e) => {
-        let tok = e.data.tok;
-        (window as any).token = tok;
-        console.log("Success. Got token", (window as any).token)
-        resolve(e);
-      })
-      .catch((e) => reject(e));
-  });
-  return promise
+  return data.then((e) => {
+      let tok = e.data.tok;
+      localStorage.setItem("tok", tok)
+      console.log('Success. Got token', localStorage.getItem("tok"));
+      return e;
+  })
 }
 // Signup code
 export const checkEmail = (email) =>
@@ -40,9 +33,8 @@ export const signin = (email) =>
   }));
 
 const authapi = (data) => {
-  data.data = { ...data.data, tok: (window as any).token }
-  console.log(data)
-  axios(data)
+  data.data = { ...data.data, tok: localStorage.getItem('tok') };
+  return axios(data)
 }
 
 export const upgrade = () =>
