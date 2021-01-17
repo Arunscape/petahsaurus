@@ -56,6 +56,7 @@
 (defun no-content ()
   '(204 () ()))
 
+(setf *random-state* (make-random-state t))
 (defvar *ascii-alphabet* "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-")
 (defun random-string (&optional (length 22) (alphabet *ascii-alphabet*))
   (loop with id = (make-string length)
