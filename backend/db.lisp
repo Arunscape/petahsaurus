@@ -8,7 +8,11 @@
    #:get-all-findings
    #:get-user-by-email
    #:get-tags
-   #:set-tag))
+   #:set-tag
+   #:has-user-email
+   #:validate
+   #:is-user-valid
+   #:create-user))
 
 
 (in-package :petahsaurus.db)
@@ -31,8 +35,18 @@
                "SELECT id, words, findingdate, lat, long FROM findings"))
 
 (defparameter +get-user-by-email-sql+
+  (dbi:prepare *connection* "SELECT id, email, validation FROM users WHERE email=?"))
+
+(defparameter +get-user-by-validation-sql+
+  (dbi:prepare *connection* "SELECT id FROM users WHERE validation=?"))
+
+(defparameter +set-user-validation-sql+
   (dbi:prepare *connection*
-               "SELECT id, email FROM users WHERE email=?"))
+               "UPDATE users SET validation=\"COMPLETE\" WHERE validation=?"))
+
+(defparameter +add-user-sql+
+  (dbi:prepare *connection*
+               "INSERT INTO users (username, email) VALUES (?, ?)"))
 
 (defparameter +get-tags-sql+
   (dbi:prepare *connection*
@@ -93,6 +107,20 @@
   (let* ((query (dbi:execute +get-user-by-email-sql+ (list email)))
          (res (query-helper query (lambda (row)
                                    `((id . ,(getf row :|id|))
-                                     (email . ,(getf row :|email|))))))
+                                     (email . ,(getf row :|email|))
+                                     (validation . ,(getf row :|validation|))))))
          (has-email (= 1 (length res))))
-    has-email))
+    (and has-email (elt res 0))))
+
+(defun has-user-email (email)
+  (and (get-user-by-email email) t))
+
+(defun validate (validation)
+  (dbi:execute +set-user-validation-sql+ (list validation)))
+
+(defun is-user-valid (email)
+  (let ((v (assoc 'validation (get-user-by-email email))))
+    (and v (cdr v))))
+
+(defun create-user (name email)
+  (dbi:execute +add-user-sql+ (list name email)))

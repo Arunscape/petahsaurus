@@ -14,18 +14,26 @@
   (let ((tok (jose:decode :hs256 *key* token)))
     (cdr (assoc value tok :test #'string=))))
 
-(defun is-valid (token)
+(defun is-partially-valid (token)
   (handler-case
     (let* ((tok (jose:decode :hs256 *key* token))
            (id (cdr (assoc "sub" tok :test #'string=)))
            (email (cdr (assoc "email" tok :test #'string=)))
-           (isfull (cdr (assoc "isfull" tok :test #'string=))))
-        (values id email isfull))
+           (isfull (cdr (assoc "isfull" tok :test #'string=)))
+           (exp (cdr (assoc "exp" tok :test #'string=))))
+        (if (< (util:get-unix-time) exp)
+          (values id email isfull)
+          nil))
     (jose/errors:jws-verification-error ()
       nil)
     (jose/errors:jws-invalid-format ()
       nil)))
 
+(defun is-valid (token)
+  (and
+    (is-partially-valid token)
+    (get-from-token token "isfull")
+    (get-from-token token "sub")))
 
 (defun create-token (id email isfull)
   (jose:encode :hs256 *key* (list (cons "email" email)
