@@ -1,11 +1,14 @@
 create table IF NOT EXISTS findings (
   id string,
+  userid TEXT,
   words TEXT,
   picture TEXT,
   findingdate int,
   lat decimal,
   long decimal,
-  primary key (id)
+  primary key (id),
+  FOREIGN KEY(userid) REFERENCES users(id)
+
 );
 
 create table IF NOT EXISTS tags (

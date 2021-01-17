@@ -10,6 +10,7 @@
 (setf (ningle:route *app* "/api/finding/:id" :method :PUT)
       (lambda (params)
         (json 200 `((id . ,(db:update-finding (param params :id)
+                                              (tok:get-from-token (param params "tok") "sub")
                                               (param params "content")
                                               (param params "image")
                                               (param params "date")
@@ -26,7 +27,8 @@
 
 (setf (ningle:route *app* "/api/finding" :method :POST)
       (lambda (params)
-        (json 200 `((id . ,(db:create-finding (param params "content")
+        (json 200 `((id . ,(db:create-finding (tok:get-from-token (param params "tok") "sub")
+                                              (param params "content")
                                               (param params "image")
                                               (param params "date")
                                               (param (param params "coords") "lat")

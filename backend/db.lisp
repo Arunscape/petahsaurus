@@ -27,15 +27,15 @@
 ;; prepared statements
 (defparameter +create-finding-sql+
   (dbi:prepare *connection*
-               "INSERT OR REPLACE INTO findings (id, words, picture, findingdate, lat, long) VALUES (?, ?, ?, ?, ?, ?)"))
+               "INSERT OR REPLACE INTO findings (id, userid, words, picture, findingdate, lat, long) VALUES (?, ?, ?, ?, ?, ?, ?)"))
 
 (defparameter +get-finding-sql+
   (dbi:prepare *connection*
-               "SELECT id, words, picture, findingdate, lat, long FROM findings WHERE id=?"))
+               "SELECT * FROM findings WHERE id=?"))
 
 (defparameter +get-all-findings-sql+
   (dbi:prepare *connection*
-               "SELECT id, words, findingdate, picture, lat, long FROM findings"))
+               "SELECT * FROM findings"))
 
 (defparameter +get-user-by-email-sql+
   (dbi:prepare *connection* "SELECT id, email, validation FROM users WHERE email=?"))
@@ -67,6 +67,7 @@
       (content . ,(getf row :|words|))
       (image . ,(getf row :|picture|))
       (date . ,(getf row :|findingdate|))
+      (userid . ,(getf row :|userid|))
       (coords . ((lat . ,(getf row :|lat|))
                  (long . ,(getf row :|long|)))))))
 
@@ -79,13 +80,13 @@
                while row
                collect (funcall result-formatter row))))
 
-(defun create-finding (words picture time lat long)
+(defun create-finding (userid words picture time lat long)
   (let ((id (util:random-string 8)))
-    (dbi:execute +create-finding-sql+ (list id words picture time lat long))
+    (dbi:execute +create-finding-sql+ (list id userid words picture time lat long))
     id))
 
-(defun update-finding (id words picture time lat long)
-    (dbi:execute +create-finding-sql+ (list id words picture time lat long))
+(defun update-finding (userid id words picture time lat long)
+    (dbi:execute +create-finding-sql+ (list id userid words picture time lat long))
     id)
 
 (defun finding-with-tags-row-to-json (row)
@@ -94,6 +95,7 @@
       (content . ,(getf row :|words|))
       (image . ,(getf row :|picture|))
       (date . ,(getf row :|findingdate|))
+      (userid . ,(getf row :|userid|))
       (coords . ((lat . ,(getf row :|lat|))
                  (long . ,(getf row :|long|))))
       (tags . ,(get-tags (getf row :|id|))))))
