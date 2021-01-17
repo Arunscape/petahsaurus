@@ -3,7 +3,7 @@ import { useHistory, useLocation, Link } from 'react-router-dom';
 import React from 'react'
 
 import back from '../assets/backarrow.svg'
-import edit from '../assets/backarrow.svg'
+import edit from '../assets/edit.svg'
 
 const BackButton = styled.button`
 width: 10vw;
