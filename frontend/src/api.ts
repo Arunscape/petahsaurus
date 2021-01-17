@@ -3,11 +3,19 @@ import type { AxiosResponse } from 'axios';
 
 const apiPath = "http://localhost:5000"
 
+// Signup code
 export const checkEmail = (email) =>
   axios({
     method: 'post',
     url: apiPath + 'api/checkemail',
     data: { email },
+  });
+
+export const signup = (email, username) =>
+  axios({
+    method: 'post',
+    url: apiPath + 'api/signup',
+    data: { email, username },
   });
 
 interface NewFinding {
