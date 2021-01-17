@@ -3,8 +3,8 @@ import React from 'react';
 import burger from '../assets/Hamburger_icon.svg'
 
 const StyledBurger = styled.button`
-  height: 4rem;
-  width: 4rem;
+  width: 10vw;
+  max-width: 4rem;
   background: transparent;
   border: transparent;
 
