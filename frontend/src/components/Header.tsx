@@ -5,8 +5,8 @@ import React from 'react'
 import back from '../assets/backarrow.svg'
 
 const BackButton = styled.button`
-height: 4rem;
-width: 4rem;
+width: 10vw;
+max-width: 4rem;
 background-color: transparent;
 border: transparent;
 `;

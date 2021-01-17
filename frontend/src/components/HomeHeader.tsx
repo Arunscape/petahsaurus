@@ -30,7 +30,7 @@ const Navi3 = styled.div`
 const Navi4 = styled.div`
 `
 const Logo = styled.img`
-width: 25vw;
+width: 30vw;
 `
 
 const Map = styled.img`
