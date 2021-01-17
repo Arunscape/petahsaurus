@@ -1,8 +1,8 @@
 create table IF NOT EXISTS findings (
   id int,
   words TEXT,
-  picture bytes,
-  findingdate date,
+  picture TEXT,
+  findingdate int,
   lat decimal,
   long decimal,
   primary key (id)

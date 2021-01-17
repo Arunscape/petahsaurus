@@ -4,6 +4,7 @@
   (:export
    #:*connection*
    #:create-finding
+   #:update-finding
    #:get-finding
    #:get-all-findings
    #:get-user-by-email
@@ -24,15 +25,15 @@
 ;; prepared statements
 (defparameter +create-finding-sql+
   (dbi:prepare *connection*
-               "INSERT INTO findings (id, words, findingdate, lat, long) VALUES (?, ?, 'now', ?, ?)"))
+               "INSERT OR REPLACE INTO findings (id, words, picture, findingdate, lat, long) VALUES (?, ?, ?, ?, ?, ?)"))
 
 (defparameter +get-finding-sql+
   (dbi:prepare *connection*
-               "SELECT id, words, findingdate, lat, long FROM findings WHERE id=?"))
+               "SELECT id, words, picture, findingdate, lat, long FROM findings WHERE id=?"))
 
 (defparameter +get-all-findings-sql+
   (dbi:prepare *connection*
-               "SELECT id, words, findingdate, lat, long FROM findings"))
+               "SELECT id, words, findingdate, picture, lat, long FROM findings"))
 
 (defparameter +get-user-by-email-sql+
   (dbi:prepare *connection* "SELECT id, email, validation FROM users WHERE email=?"))
@@ -57,14 +58,17 @@
                "INSERT OR REPLACE INTO tags (findingid, k, v) VALUES (?, ?, ?)"))
 
 ;; database public api
+(defun finding-row-to-json (row)
+  (when row
+    `((id . ,(write-to-string (getf row :|id|)))
+      (content . ,(getf row :|words|))
+      (image . ,(getf row :|picture|))
+      (date . ,(getf row :|findingdate|))
+      (coords . ((lat . ,(getf row :|lat|))
+                 (long . ,(getf row :|long|)))))))
+
 (defun get-finding (id)
-  (let ((row (dbi:fetch (dbi:execute +get-finding-sql+ (list id)))))
-    (when row
-      `((id . ,(getf row :|id|))
-        (content . ,(getf row :|words|))
-        (date . ,(getf row :|findingdate|))
-        (coords . ((lat . ,(getf row :|lat|))
-                   (long . ,(getf row :|long|))))))))
+  (finding-row-to-json (dbi:fetch (dbi:execute +get-finding-sql+ (list id)))))
 
 (defun query-helper (query result-formatter)
   (apply #'vector
@@ -73,18 +77,15 @@
                collect (funcall result-formatter row))))
 
 ;; database public api
-(defun create-finding (words lat long)
+(defun create-finding (words picture time lat long)
   (let ((id (util:make-id)))
-    (dbi:execute +create-finding-sql+ (list id words lat long))
+    (dbi:execute +create-finding-sql+ (list id words picture time lat long))
     (write-to-string id)))
 
-(defun finding-row-to-json (row)
-  (when row
-    `((id . ,(write-to-string (getf row :|id|)))
-      (content . ,(getf row :|words|))
-      (date . ,(getf row :|findingdate|))
-      (coords . ((lat . ,(getf row :|lat|))
-                 (long . ,(getf row :|long|)))))))
+(defun update-finding (id words picture time lat long)
+    (dbi:execute +create-finding-sql+ (list id words picture time lat long))
+    (write-to-string id))
+
 
 (defun get-all-findings ()
   (let ((query (dbi:execute +get-all-findings-sql+)))
