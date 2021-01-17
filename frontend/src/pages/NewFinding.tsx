@@ -32,6 +32,9 @@ const KVPair = styled.span`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: pink;
 `;
 
 const StyledBackground = styled.div`
@@ -245,9 +248,9 @@ const NewFindings = () => {
           .map(([key, value]: [string, string]) => {
             return (
               <KVPair key={key}>
-                <div>{key}</div>
+                <input type="text" value={key} disabled={true} />
                 <Spacer />
-                <div>{value}</div>
+                <input type="text" value={value} disabled={true} />
                 <Spacer />
                 <Addandremovetag
                   onClick={() => {
