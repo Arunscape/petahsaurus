@@ -43,25 +43,22 @@ const NewFindings = () => {
 
         reader.addEventListener("load", function () {
           // convert image file to base64 string
-          console.log(reader.result.toString());
+          //console.log(reader.result.toString());
           setPicture(reader.result.toString())
 
           Api.createFinding({content: "eat shit", coords: {lat: 5.5, long: 5.5}, image: reader.result.toString(), date: 69})
               //.then((resp) => Api.getFinding(resp.data.id))
-              .then((data) => console.log(data.data));
+              .then((data) => {
+                for (let [key, value] of tagList) {
+                    console.log("posting for tags: " + key + value);
+                    Api.setTag(data.data.id, key, value);
+                }  
+                });
         }, false);
       
         if (picture) {
           reader.readAsDataURL(picture);
           setPicture(reader.result.toString())
-        }
-
-
-        //Api.setTag(id, tagKey, tagVal);
-        
-        // itterate over all the tag values 
-        for (let t of tagList) {
-            console.log(t);
         }
     }
 

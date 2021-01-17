@@ -52,7 +52,7 @@ export const setTag = (id: string, key: string, value: string): Promise<AxiosRes
 export const getFinding = (id: string): Promise<AxiosResponse<Finding>> =>
     axios.get(`${apiPath}/api/finding/${id}`);
 
-export const createFinding = (finding: NewFinding): Promise<AxiosResponse<{id: number}>> =>
+export const createFinding = (finding: NewFinding): Promise<AxiosResponse<{id: string}>> =>
     axios.post(`${apiPath}/api/finding`, finding);
 
 export const getAllFindings = (): Promise<AxiosResponse<Finding[]>> =>
