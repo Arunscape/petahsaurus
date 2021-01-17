@@ -20,7 +20,7 @@ create table IF NOT EXISTS users (
   username TEXT,
   email TEXT,
   validation TEXT,
-  id INTEGER PRIMARY KEY AUTOINCREMENT
+  id TEXT PRIMARY KEY
 );
 
 create table IF NOT EXISTS userdata (

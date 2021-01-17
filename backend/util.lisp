@@ -10,7 +10,8 @@
    #:starts-with
    #:make-id
    #:get-unix-time
-   #:no-content))
+   #:no-content
+   #:random-string))
 
 (in-package :petahsaurus.util)
 
@@ -51,3 +52,12 @@
 
 (defun no-content ()
   '(204 () ()))
+
+(defvar *ascii-alphabet* "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-")
+(defun random-string (&optional (length 22) (alphabet *ascii-alphabet*))
+  (loop with id = (make-string length)
+        with nl = (length alphabet)
+        for i below length
+        do (setf (cl:aref id i)
+                 (cl:aref alphabet (random nl)))
+        finally (return id)))

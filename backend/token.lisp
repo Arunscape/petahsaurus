@@ -7,6 +7,8 @@
    #:is-valid
    #:create-token))
 
+(in-package :petahsaurus.token)
+
 (defvar *key* (ironclad:ascii-string-to-byte-array "secret"))
 
 (defun get-from-token (token value)

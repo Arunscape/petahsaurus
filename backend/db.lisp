@@ -13,7 +13,8 @@
    #:has-user-email
    #:validate
    #:is-user-valid
-   #:create-user))
+   #:create-user
+   #:request-validation))
 
 
 (in-package :petahsaurus.db)
@@ -45,9 +46,13 @@
   (dbi:prepare *connection*
                "UPDATE users SET validation=\"COMPLETE\" WHERE validation=?"))
 
+(defparameter +add-validation-request-sql+
+  (dbi:prepare *connection*
+               "UPDATE users SET validation=? WHERE email=?"))
+
 (defparameter +add-user-sql+
   (dbi:prepare *connection*
-               "INSERT INTO users (username, email) VALUES (?, ?)"))
+               "INSERT INTO users (username, email, id) VALUES (?, ?, ?)"))
 
 (defparameter +get-tags-sql+
   (dbi:prepare *connection*
@@ -106,9 +111,9 @@
 (defun get-user-by-email (email)
   (let* ((query (dbi:execute +get-user-by-email-sql+ (list email)))
          (res (query-helper query (lambda (row)
-                                   `((id . ,(getf row :|id|))
-                                     (email . ,(getf row :|email|))
-                                     (validation . ,(getf row :|validation|))))))
+                                   `((:id . ,(getf row :|id|))
+                                     (:email . ,(getf row :|email|))
+                                     (:validation . ,(getf row :|validation|))))))
          (has-email (= 1 (length res))))
     (and has-email (elt res 0))))
 
@@ -123,4 +128,9 @@
     (and v (cdr v))))
 
 (defun create-user (name email)
-  (dbi:execute +add-user-sql+ (list name email)))
+  (dbi:execute +add-user-sql+ (list name email (util:random-string))))
+
+(defun request-validation (email)
+  (let ((validation (util:random-string)))
+    (dbi:execute +add-validation-request-sql+ (list validation email))
+    validation))
