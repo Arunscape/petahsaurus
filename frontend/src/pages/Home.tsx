@@ -5,33 +5,43 @@ import {
   Route,
   Link,
   Redirect,
+  useLocation,
 } from 'react-router-dom';
 import Header from '../components/HomeHeader';
 import FindingCard from '../components/FindingCard';
 import * as Api from '../api';
 import styled from 'styled-components';
-import background from '../assets/background.svg'
+import background from '../assets/background.svg';
 
 const Background = styled.div`
-background-image: url(${background});
-background-repeat: repeat;
-height: 100vh;
-overflow: auto;
-`
+  background-image: url(${background});
+  background-repeat: repeat;
+  height: 100vh;
+  overflow: auto;
+`;
 
 const Home = () => {
   const [findings, setFindings] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     Api.getAllFindings().then((res) => setFindings(res.data));
   }, []);
 
+  const HomeList = () => (
+    <>
+      {findings.map((finding: Api.Finding) => (
+        <FindingCard finding={finding} />
+      ))}
+    </>
+  );
+  const HomeMap = () => <></>
+
   return (
     <Background>
       <Header />
-        {findings.map((finding: Api.Finding) => (
-          <FindingCard finding={finding} />
-        ))}
+        {location.pathname.startsWith("/home") && <HomeList/>}
+        {location.pathname.startsWith("/map") && <HomeMap/>}
     </Background>
   );
 };
